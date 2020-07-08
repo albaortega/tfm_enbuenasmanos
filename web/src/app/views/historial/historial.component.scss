@@ -1,0 +1,72 @@
+#historial .mat-header-row{
+  background-color: lightgrey;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+.empty{
+  border-bottom: 0.5px solid lightgrey;
+  padding: 1%;
+}
+#historial .mat-column-type {
+  flex: 0 0 10% !important;
+  width: 10% !important;
+  padding: 0 0.5%;
+}
+#historial  .mat-column-status {
+  flex: 0 0 8% !important;
+  width: 8% !important;
+}
+#historial .mat-column-action {
+  flex: 0 0 14% !important;
+  width: 14% !important;
+  padding: 0 0.5%;
+}
+#historial .mat-column-start_date {
+  flex: 0 0 10% !important;
+  width: 10% !important;
+  padding: 0 0.5%;
+}
+#historial  .mat-column-end_date {
+  flex: 0 0 10% !important;
+  width: 10% !important;
+  padding: 0 0.5%;
+}
+#historial .mat-column-address{
+  flex: 0 0 18% !important;
+  width: 18% !important;
+  padding: 0 0.5%;
+}
+#historial .mat-column-worker {
+  flex: 0 0 18% !important;
+  width: 18% !important;
+  padding: 0 0.5%;
+}
+#historial .mat-column-user {
+  flex: 0 0 18% !important;
+  width: 18% !important;
+  padding: 0 0.5%;
+}
+#filter{
+  	font-size: 14px;
+  	width: 40%;
+	float:right;
+}
+.filterColumn{
+  margin:0 1%;
+  width: 18%;
+}
+.pending{
+  border-left: 10px solid orange;
+}
+.cornflowerblue{
+  border-left: 10px solid cornflowerblue;
+}
+.forestgreen{
+  border-left: 10px solid forestgreen;
+}
+.darkred{
+  border-left: 10px solid darkred;
+}
+.blueviolet{
+  border-left: 10px solid blueviolet;
+}

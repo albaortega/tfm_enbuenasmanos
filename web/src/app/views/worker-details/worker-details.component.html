@@ -1,0 +1,37 @@
+<mat-card-title> <h1><mat-icon>info</mat-icon><strong> Detalles de trabajador</strong></h1></mat-card-title>
+<hr>
+<mat-card-content>
+    <div class="propic pl-20 text-center" style="width:30%; display: inline-block;">
+                <img [src]="picture" style="border-radius:50%" alt="">
+    </div>
+    <div style="width:70%; display: inline-block;">
+        <div class="profile-title pl-20 mb-1">
+            <div class="default ">
+                <mat-card-content class="pt-0 pl-20">
+                    <mat-list>
+                        <mat-list-item><h2>
+                            <mat-icon style="color: mediumseagreen; font-size: medium; vertical-align: middle" *ngIf="free && final_date==null">lens</mat-icon>
+                            <mat-icon style="color: orange; font-size: medium; vertical-align: middle" *ngIf="!free && final_date==null">lens</mat-icon>
+                            <mat-icon style="color: dimgrey; font-size: medium; vertical-align: middle" *ngIf="final_date!=null">lens</mat-icon>
+                            <strong>{{name}}</strong>
+                        </h2></mat-list-item>
+                        <mat-list-item><mat-icon class="mr-1">person</mat-icon><strong>Dni: </strong> &nbsp;&nbsp;{{dni}}</mat-list-item>
+                        <mat-list-item><mat-icon class="mr-1">email</mat-icon><strong>Email: </strong> &nbsp;&nbsp;{{email}}</mat-list-item>
+                        <mat-list-item><mat-icon class="mr-1">phone</mat-icon><strong>Teléfono: </strong> &nbsp;&nbsp;{{phone}}</mat-list-item>
+                        <mat-list-item><mat-icon class="mr-1">work</mat-icon><strong>Servicios: </strong> &nbsp;&nbsp;{{services}}</mat-list-item>
+                        <mat-list-item><mat-icon class="mr-1">today</mat-icon><strong>Fecha de incorporación: </strong> &nbsp;&nbsp;{{incorporation_date}}</mat-list-item>
+                        <mat-list-item><mat-icon class="mr-1">today</mat-icon>
+                            <div *ngIf="final_date!=null"><strong>Fecha de fin de contrato:</strong>&nbsp;&nbsp;{{final_date}}</div>
+                            <div *ngIf="final_date==null"><strong>Fecha de fin de contrato:</strong>&nbsp;&nbsp;Contrato no finalizado</div>
+                        </mat-list-item>
+                    </mat-list>
+                </mat-card-content>
+            </div>
+        </div>
+    </div>
+
+
+</mat-card-content>
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>OK</button>
+</mat-dialog-actions>

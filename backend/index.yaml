@@ -1,0 +1,39 @@
+indexes:
+
+  - kind: Services
+    properties:
+    - name: client
+    - name: start_date
+      direction: desc
+
+  - kind: Services
+    properties:
+      - name: client
+      - name: start_date
+
+  - kind: Services
+    properties:
+    - name: worker
+    - name: start_date
+      direction: desc
+
+  - kind: Services
+    properties:
+      - name: worker
+      - name: start_date
+
+  - kind: Services
+    properties:
+    - name: status
+    - name: start_date
+      direction: desc
+
+  - kind: Services
+    properties:
+      - name: start_date
+      - name: status
+
+  - kind: Messages
+    properties:
+      - name: id_chat
+      - name: date

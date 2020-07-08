@@ -1,0 +1,214 @@
+<mat-card>
+    <mat-card-title> <h1><strong>Nuevo servicio </strong></h1></mat-card-title>
+    <hr>
+    <mat-card-content>
+        <!-- Dashboard card row -->
+        <div fxLayout="row wrap">
+            <div class="opciones" [className]="type!='hospital' && selected ? 'disabled' : 'enable'">
+                <mat-card id="first" class="tarjetaopciones" (click)="choose_service('hospital')">
+                    <mat-card-title fxLayoutAlign="start center">
+                        <h3 class="text-muted">Asistencia en hospital</h3>
+                        <span fxFlex></span>
+                    </mat-card-title>
+                    <hr>
+                    <mat-card-content>
+
+                    </mat-card-content>
+                </mat-card>
+                <hr *ngIf="type=='hospital'" class="selected">
+            </div>
+
+            <div  class="opciones" [className]="type!='domicilio' && selected ? 'disabled' : 'enable'">
+                <mat-card id="second" class="tarjetaopciones" (click)="choose_service('domicilio')">
+                    <mat-card-title>
+                        <h3 class="text-muted">Asistencia domicilio adultos</h3>
+                        <span fxFlex></span>
+                    </mat-card-title>
+                    <hr style="border: 0.5px solid dodgerblue">
+                    <mat-card-content>
+
+                    </mat-card-content>
+                </mat-card>
+                <hr *ngIf="type=='domicilio'" class="selected">
+            </div>
+
+            <div  class="opciones" [className]="type!='infantil' && selected ? 'disabled' : 'enable'">
+                <mat-card id="third" class="tarjetaopciones" (click)="choose_service('infantil')">
+                    <mat-card-title>
+                        <h3 class="text-muted">Asistencia domicilio infantil</h3>
+                        <span fxFlex></span>
+                    </mat-card-title>
+                    <hr style="border:0.5px solid hotpink">
+                    <mat-card-content>
+
+                    </mat-card-content>
+                </mat-card>
+                <hr *ngIf="type=='infantil'" class="selected">
+            </div>
+        </div>
+        <div fxLayout="row wrap" *ngIf="type!=''" style="padding:3%">
+            <div id="formNewServiceHospital" *ngIf="type=='hospital'" class="newService">
+                <h2> Nueva asistencia en hospital </h2>
+
+            </div>
+            <div id="formNewServiceHome" *ngIf="type=='domicilio'" class="newService">
+                <h2> Nueva asistencia para adulto en domicilio </h2>
+                <form>
+                    <mat-horizontal-stepper [linear]="true">
+                    <mat-step [stepControl]="personalInfo">
+                        <form [formGroup]="personalInfo" style="min-height:350px">
+                            <ng-template matStepLabel>Datos personales cliente</ng-template>
+                            <mat-form-field class="pt-1 pb-1 inputnewService">
+                                <mat-label> Nombre:</mat-label>
+                                <input matInput placeholder="Nombre" formControlName="name" required [disabled]="personalInfo.getRawValue().name!=''">
+                            </mat-form-field>
+                            <mat-form-field class="pt-1 pb-1 inputnewService">
+                                <mat-label> DNI:</mat-label>
+                                <input matInput placeholder="DNI" formControlName="dni" required >
+                            </mat-form-field>
+                            <mat-form-field class="pt-1 pb-1 inputnewService">
+                                <mat-label> Email:</mat-label>
+                                <input matInput placeholder="Email" formControlName="email" required >
+                            </mat-form-field>
+
+                            <mat-form-field class="pt-1 pb-1 inputnewService">
+                                <mat-label> Teléfono:</mat-label>
+                                <mat-select formControlName="phone" required>
+                                    <mat-option *ngFor="let phone of phonesList" [value]="phone.number">
+                                      {{phone.number}}
+                                    </mat-option>
+                                    <hr style="margin-bottom:0">
+                                    <mat-option (click)="newPhone()" style="background-color:lightgrey">-Añadir nuevo teléfono-</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <div style="margin-left:4%">
+                                <button mat-raised-button color="primary" matStepperNext>Siguiente</button>
+                            </div>
+                        </form>
+                    </mat-step>
+                    <mat-step [stepControl]="patientInfo">
+                        <form [formGroup]="patientInfo" style="min-height:350px">
+                            <ng-template matStepLabel>Datos personales paciente</ng-template>
+                            <mat-form-field class="pt-1 pb-1" style="margin-left:4%; margin-right: 4%; width:92%">
+                                <mat-label>Persona que recibirá asistencia: </mat-label>
+                                <mat-select formControlName="user" required>
+                                    <mat-option *ngFor="let person of adults" [value]="person.id">
+                                      {{person.name}}, {{person.age}}
+                                    </mat-option>
+                                    <hr style="margin-bottom: 0">
+                                    <mat-option (click)="newPerson()" style="background-color:lightgrey">-Añadir nueva persona-</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <div style="margin-left:4%">
+                                <button mat-raised-button color="accent" matStepperPrevious>Atrás</button>
+                                <span fxFlex="8px"></span>
+                                <button mat-raised-button color="primary" matStepperNext>Siguiente</button>
+                            </div>
+                        </form>
+                    </mat-step>
+                    <mat-step [stepControl]="addressInfo">
+                        <form [formGroup]="addressInfo" style="min-height:350px">
+                            <ng-template matStepLabel>Dirección</ng-template>
+                            <mat-form-field class="pt-1 pb-1" style="margin-left:4%; margin-right:4%; width:92%;">
+                                <mat-label>Dirección:</mat-label>
+                                <mat-select formControlName="address" required>
+                                    <mat-option *ngFor="let address of homeAddresses" [value]="address.id">
+                                      {{address.street}} {{address.number}}, {{address.city}}
+                                    </mat-option>
+                                    <hr style="margin-bottom: 0">
+                                    <mat-option (click)="newAddress()" style="background-color:lightgrey">-Añadir nueva dirección-</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <div fxLayout="row" style="margin-left:4%">
+                                <button mat-raised-button color="accent" matStepperPrevious>Atrás</button>
+                                <span fxFlex="8px"></span>
+                                <button mat-raised-button color="primary" matStepperNext>Siguiente</button>
+                            </div>
+                        </form>
+                    </mat-step>
+                    <mat-step [stepControl]="datesInfo">
+                        <form [formGroup]="datesInfo" style="min-height:350px">
+                            <ng-template matStepLabel>Fechas</ng-template>
+                            <mat-form-field class="pt-1 pb-1 inputnewService">
+                                <mat-label>Fecha comienzo:</mat-label>
+                                <input matInput [matDatepicker]="picker" [formControl]="startdate" [min]="startminDate" required>
+                                <mat-datepicker-toggle matSuffix [for]="picker" ></mat-datepicker-toggle>
+                                <mat-datepicker #picker></mat-datepicker>
+                            </mat-form-field>
+                            <div class="inputnewService" style="display:inline-block">
+                                <mat-form-field class="pt-1 pb-1 " style="width:70%">
+                                    <mat-label>Fecha final:</mat-label>
+                                    <input matInput [matDatepicker]="picker2" [formControl]="enddate" [min]="endminDate" required [disabled]="this.openfinaldate.value">
+                                    <mat-datepicker-toggle matSuffix [for]="picker2" [disabled]="this.openfinaldate.value"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker2 [disabled]="this.openfinaldate.value"></mat-datepicker>
+                                </mat-form-field>
+                                <mat-checkbox (change)="disableFinalDate($event.checked)" style="margin-left:2%">Fecha final abierta</mat-checkbox>
+                            </div>
+                            <div style="margin-left:4%">
+                                <button mat-raised-button color="accent" matStepperPrevious>Atrás</button>
+                                <span fxFlex="8px"></span>
+                                <button mat-raised-button color="primary" matStepperNext>Siguiente</button>
+                            </div>
+                        </form>
+                    </mat-step>
+                    <mat-step>
+                        <ng-template matStepLabel>Completa</ng-template>
+                        <div>
+                            <mat-icon class="pt-1" [style.fontSize]="'36px'">check</mat-icon>
+                        </div>
+                        <div class="pb-1 mb-1"> Datos de solicitud completados.</div>
+                        <div fxLayout="row" style="margin-left:4%">
+                            <button mat-raised-button color="accent" matStepperPrevious>Atrás</button>
+                            <span fxFlex="8px"></span>
+                            <button mat-raised-button color="primary">Solicitar</button>
+                        </div>
+                      </mat-step>
+                </mat-horizontal-stepper>
+                </form>
+            </div>
+            <div id="formNewServiceKids" *ngIf="type=='infantil'" class="newService">
+                <h2> Nueva asistencia infantil en domicilio </h2>
+                <form>
+                    <mat-horizontal-stepper [linear]="true">
+                    <mat-step [stepControl]="personalInfo">
+                        <form [formGroup]="personalInfo">
+                            <ng-template matStepLabel>Fill out your name</ng-template>
+                            <mat-form-field class="pt-1 pb-1">
+                                <input matInput placeholder="Last name, First name" formControlName="firstCtrl" required>
+                            </mat-form-field>
+                            <div>
+                                <button mat-raised-button color="primary" matStepperNext>Next</button>
+                            </div>
+                        </form>
+                    </mat-step>
+                    <mat-step [stepControl]="addressInfo">
+                        <form [formGroup]="addressInfo">
+                            <ng-template matStepLabel>Fill out your address</ng-template>
+                            <mat-form-field class="pt-1 pb-1">
+                                <input matInput placeholder="Address" formControlName="secondCtrl" required>
+                            </mat-form-field>
+                            <div fxLayout="row">
+                                <button mat-raised-button color="accent" matStepperPrevious>Back</button>
+                                <span fxFlex="8px"></span>
+                                <button mat-raised-button color="primary" matStepperNext>Next</button>
+                            </div>
+                        </form>
+                    </mat-step>
+                    <mat-step>
+                        <ng-template matStepLabel>Done</ng-template>
+                        <div>
+                            <mat-icon class="pt-1" [style.fontSize]="'36px'">check</mat-icon>
+                        </div>
+                        <div class="pb-1 mb-1"> You Are Done.</div>
+                        <div fxLayout="row">
+                            <button mat-raised-button color="accent" matStepperPrevious>Back</button>
+                            <span fxFlex="8px"></span>
+                            <button mat-raised-button color="primary">Submit</button>
+                        </div>
+                      </mat-step>
+                </mat-horizontal-stepper>
+                </form>
+            </div>
+        </div>
+    </mat-card-content>
+</mat-card>

@@ -1,0 +1,59 @@
+<mat-card-title> <h1><mat-icon>add</mat-icon>
+    <strong *ngIf="data.type=='worker'">Nuevo trabajador</strong>
+    <strong *ngIf="data.type=='admin'">Nuevo administrador</strong>
+</h1></mat-card-title>
+<hr>
+<mat-card-content>
+    <form>
+        <mat-form-field class="pt-1 pb-1" style="margin-left:2%; margin-right: 2%; width:46%; display: inline-block" *ngIf="data.type=='worker'">
+            <mat-label>Nombre:</mat-label>
+            <input matInput required [formControl]="name"/>
+        </mat-form-field >
+        <mat-form-field class="pt-1 pb-1" style="margin-left:2%; margin-right: 2%; width:96%; display: inline-block" *ngIf="data.type=='admin'">
+            <mat-label>Nombre:</mat-label>
+            <input matInput required [formControl]="name"/>
+        </mat-form-field >
+        <mat-form-field class="pt-1 pb-1" style="margin-left:2%; margin-right: 2%; width:46%; display: inline-block" *ngIf="data.type=='worker'">
+            <mat-label>Email:</mat-label>
+            <input matInput required [formControl]="email"/>
+        </mat-form-field>
+        <mat-form-field class="pt-1 pb-1" style="margin-left:2%; margin-right: 2%; width:96%; display: inline-block" *ngIf="data.type=='admin'">
+            <mat-label>Email:</mat-label>
+            <input matInput required [formControl]="email"/>
+        </mat-form-field>
+        <mat-form-field class="pt-1 pb-1" style="margin-left:2%; margin-right: 2%; width:46%; display: inline-block" *ngIf="data.type=='worker'">
+            <mat-label>Dni:</mat-label>
+            <input matInput required [formControl]="dni"/>
+        </mat-form-field>
+        <mat-form-field class="pt-1 pb-1" style="margin-left:2%; margin-right: 2%; width:96%; display: inline-block" *ngIf="data.type=='admin'">
+            <mat-label>Dni:</mat-label>
+            <input matInput required [formControl]="dni"/>
+        </mat-form-field>
+        <mat-form-field class="pt-1 pb-1" style="margin-left:2%; margin-right: 2%; width:46%; display: inline-block" *ngIf="data.type=='worker'">
+            <mat-label>Teléfono:</mat-label>
+            <input matInput required [formControl]="phone"/>
+        </mat-form-field>
+        <mat-form-field class="pt-1 pb-1" style="margin-left:2%; margin-right: 2%; width:96%" *ngIf="data.type=='worker'">
+            <mat-label>Fecha comienzo:</mat-label>
+            <input matInput [matDatepicker]="picker" [formControl]="date" [min]="minDate" required>
+            <mat-datepicker-toggle matSuffix [for]="picker" ></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field class="pt-1 pb-1" style="margin-left:2%; margin-right: 2%; width:96%" *ngIf="data.type=='worker'">
+            <mat-label>Servicios que acepta:</mat-label>
+            <mat-select [formControl]="services" required multiple #serviceSelected>
+                <mat-option  value="0" (click)="selectAllServices(serviceSelected, servicesArray)"><small>Seleccionar todos</small></mat-option>
+                <hr>
+                <mat-option *ngFor="let element of servicesArray" [value]="element.id">{{element.viewValue}}</mat-option>
+                <button style="float:right; margin:0 1% 1% 0" mat-raised-button (click)="serviceSelected.close()">OK</button>
+            </mat-select>
+        </mat-form-field>
+    </form>
+</mat-card-content>
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancelar</button>
+    <button mat-button  *ngIf="data.id=='' && data.type=='worker'" (click)="saveWorker()">Guardar</button>
+    <button mat-button  *ngIf="data.id!='' && data.type=='worker'" (click)="updateWorker(data.id)">Actualizar</button>
+    <button mat-button  *ngIf="data.id=='' && data.type=='admin'" (click)="saveAdmin()">Guardar</button>
+    <button mat-button  *ngIf="data.id!='' && data.type=='admin'" (click)="updateAdmin(email)">Actualizar</button>
+</mat-dialog-actions>

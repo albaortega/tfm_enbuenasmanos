@@ -1,0 +1,125 @@
+<mat-card class="p-0">
+  <mat-sidenav-container class="chat-container">
+    <!-- Left sidebar -->
+    <mat-sidenav class="chat-sidenav" [opened]="isSidenavOpen" mode="side" >
+      <!-- Left side topbar -->
+          <mat-toolbar color="primary" class="chat-sidebar-toolbar">
+            <a class="toolbar-avatar online">
+              <img [src]="userInfo.picture" alt="">
+            </a>
+            <h6 class="m-0 pl-1 font-normal fz-1">{{userInfo.name}}</h6>
+          </mat-toolbar>
+          <div [perfectScrollbar] class="chat-sidebar-scroll">
+            <!-- Left side contact list -->
+              <p style="margin: 5% 5% 0 5%;">Chats activos: {{chats.length}}</p>
+            <mat-nav-list class="inbox-nav-list" role="list">
+              <mat-list-item *ngFor="let chat of chats" (click)="getChatByContact(chat)"  [ngClass]="{selected: activeChat!=null && chat.id === activeChat.id}">
+                <a mat-list-avatar class="'toolbar-avatar">
+                  <img [src]="chat.worker_picture" style="border-radius:50%">
+                </a>
+                <h6 matLine>{{chat.worker_name}}</h6>
+              </mat-list-item>
+
+            </mat-nav-list>
+          </div>
+
+    </mat-sidenav>
+
+    <!-- Right side -->
+    <div class="chats-wrap">
+      <!-- Right side topbar -->
+      <mat-toolbar color="primary" class="chat-toolbar">
+          <!-- sidebar toggle button -->
+          <button
+          mat-icon-button
+          [style.alignSelf]="'center'"
+          class="mr-1" ><mat-icon>short_text</mat-icon>
+          </button>
+
+          <!-- Selected active user -->
+          <div
+            class="active-chat-user"
+            fxLayout="row"
+            fxLayoutAlign="start center"
+            *ngIf="activeContact.id"
+          >
+            <a
+
+              class="toolbar-avatar mr-1"
+            >
+              <img [src]="activeContact.picture" alt="">
+            </a>
+            <div fxLayout="column">
+              <h6 class="m-0 font-normal fz-1">{{activeContact.name}}</h6>
+            </div>
+          </div>
+      </mat-toolbar>
+
+            <div *ngIf="numMessages>0">
+                <!-- Main chat body -->
+                <div class="conversations-hold" [perfectScrollbar] id="chatsMessages">
+
+                  <!-- single chat item -->
+                  <div class="single-conversation"
+                       fxLayout="row"
+                       *ngFor="let chat of messagesCollection"
+                       [ngClass]="{me: chat.from_user === userInfo.name, sender: chat.from_user !== userInfo.name}"
+                  >
+
+                    <div>
+                      <h5  class="chat-username text-muted">{{chat.from_user}}</h5>
+                      <!--h5 *ngIf="chat.contactId !== activeContact.id" class="chat-username text-muted">{{user?.name}}</h5-->
+
+                      <div class="conversation-msg">
+                        {{chat.msg}}
+                      </div>
+                      <p class="chat-date text-muted">{{chat.date | relativeTime}}</p>
+                    </div>
+                  </div>
+
+                </div>
+                <mat-divider></mat-divider>
+
+                <!-- Input box and send button -->
+                <div class="chat-input-actions">
+                  <form
+                    #msgForm="ngForm"
+                    class="inputForm"
+                    (ngSubmit)="sendMessage()"
+                    fxLayout="row"
+                  >
+                    <mat-form-field class="full-width mr-1" style="padding:0" id="matformdield">
+                      <textarea
+                      matInput
+                      required
+                      #msgInput
+                      ngModel
+                      name="message"
+                      class="inputText"
+                      value=""
+                      id="textmsg"></textarea>
+                    </mat-form-field>
+                    <button mat-fab color="primary" type="submit"><mat-icon>send</mat-icon></button>
+                  </form>
+                </div>
+            </div>
+
+            <div class="chat-intro"
+            *ngIf="numMessages==0"
+            fxLayout="column"
+            fxLayoutAlign="center center">
+              <mat-card
+              class="text-center"
+              fxLayout="row"
+              fxLayoutAlign="center center"
+              [ngStyle]="{height: '220px', width: '220px', borderRadius: '50%'}">
+                <mat-icon
+                color="primary"
+                class="text-60"
+                [ngStyle]="{height: '60px', width: '60px'}">chat</mat-icon>
+              </mat-card>
+              <h6>Select a contact!</h6>
+            </div>
+    </div>
+  </mat-sidenav-container>
+</mat-card>

@@ -1,0 +1,123 @@
+<div class="seciton-left">
+    <div class="section-left-content" style="margin-left: 20%;margin-top: 10%;width:45%;max-width: none;">
+        <h1 class="text-36 font-weight-light"><strong>En buenas manos</strong></h1>
+        <h3 class="mb-24">En todo momento cuidamos de tus seres queridos.</h3>
+        <div style="opacity: 0.8; text-align: center">
+            <div >
+                <mat-card class="rounded-circle" fxLayout="row wrap" fxLayoutAlign="start center" style="background-color:rgba(255,255,255,0.6); padding: 8px;">
+                  <img class="rounded-circle" src="assets/images/kids.jpg" alt="" style="width:30%">
+                  <span style="width: 20px"></span>
+                  <div>
+                    <span class="font-weight-bold"> Servicio cuidado infantil</span>
+                  </div>
+                </mat-card>
+                <mat-card class="rounded-circle" fxLayout="row wrap" fxLayoutAlign="start center" style="background-color:rgba(255,255,255,0.6);padding: 8px;">
+                  <img class="rounded-circle" src="assets/images/home.jpeg" alt="" style="width:30%">
+                  <span style="width: 20px"></span>
+                  <div>
+                    <span class="font-weight-bold"> Servicio cuidado adultos</span>
+                  </div>
+                </mat-card>
+                <mat-card class="rounded-circle" fxLayout="row wrap" fxLayoutAlign="start center" style="background-color:rgba(255,255,255,0.6);padding: 8px;">
+                  <img class="rounded-circle" src="assets/images/hospital.jpg" alt="" style="width:30%">
+                  <span style="width: 20px"></span>
+                  <div>
+                    <span class="font-weight-bold"> Servicio cuidado en hospital</span>
+                  </div>
+                </mat-card>
+            </div>
+            <button mat-raised-button style="color:white; width:auto;background: transparent; box-shadow: none;" (click)="openAskForInfo()"><strong>Solicitar información</strong></button>
+        </div>
+    </div>
+</div>
+
+
+<div class="form-holder height-100vh mat-elevation-z4" *ngIf="!signUp">
+    <!-- headline -->
+    <div class="form-headline text-center mb-32">
+        <h1 class="font-weight-light">Inicia sesión con tu cuenta</h1>
+    </div>
+    <div class="mb-48" fxLayout="row wrap" fxLayoutAlign="center center">
+        <img
+                width="200px"
+                src="assets/images/icono_cuidadopersonas.png"
+                alt=""
+        />
+    </div>
+
+    <div class="signin">
+        <p class="font-weight-light" style="text-align: center">Accede al sistema con tu cuenta de Google</p>
+        <ngx-auth-firebaseui-providers class="provider" style="border: 1px solid lightgray; margin-bottom:10%;" [providers]="'google'"  (onSuccess)="login($event)" (onError)="errorLogin($event)"></ngx-auth-firebaseui-providers>
+        <mat-divider class="my-32"></mat-divider>
+        <div style="text-align: center">
+            <p class="font-weight-light">Si aún no tienes cuenta puedes registrarte aquí: <button mat-raised-button color="accent" style="margin-top:3%;" (click)="signUp=true">Regístrate</button></p>
+        </div>
+    </div>
+
+
+</div>
+<div
+    class="form-holder height-100vh mat-elevation-z4" *ngIf="signUp"
+    [perfectScrollbar]="{}"
+  >
+    <form
+      class="signup-form"
+      fxLayout="column"
+      fxLayoutAlign="start"
+    >
+
+      <!-- headline -->
+      <div class="form-headline text-center mb-16">
+        <h1 class="font-weight-bold">Registrate!</h1>
+        <p class="text-muted">Vamos a crear una cuenta</p>
+      </div>
+      <div class="mb-32" fxLayout="row wrap" fxLayoutAlign="center center">
+          <img width="200px" src="assets/images/icono_cuidadopersonas.png" alt="">
+      </div>
+        <div class="form-headline text-center mb-16">
+        <p class="text-muted">Debes registrarte con una cuenta de Gmail</p>
+      </div>
+        <ngx-auth-firebaseui-providers style="border: 1px solid lightgray; width:100%" [providers]="'google'"  (onSuccess)="getUser($event)"></ngx-auth-firebaseui-providers>
+      <mat-divider class="my-32"></mat-divider>
+        <mat-form-field class="full-width" appearance="outline" >
+            <mat-label>Nombre completo</mat-label>
+            <input
+              matInput
+              type="text"
+              name="name"
+              placeholder="Nombre completo"
+              [formControl]="name"
+              required
+            />
+          </mat-form-field>
+        <mat-form-field class="full-width" appearance="outline" >
+            <mat-label>Dni</mat-label>
+            <input
+              matInput
+              type="text"
+              name="dni"
+              placeholder="Dni"
+              [formControl]="dni"
+              required
+            />
+          </mat-form-field>
+        <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Email</mat-label>
+            <input
+              matInput
+              type="email"
+              name="email"
+              placeholder="Email"
+              [formControl]="email"
+              required
+            />
+          </mat-form-field>
+          <mat-checkbox class="mb-24" [formControl]="agreed"
+            >Acepto que el sistema utilice mis datos</mat-checkbox
+          >
+          <button  mat-raised-button color="primary" (click)="signup()" [disabled]="signupnotfull">Registrar</button>
+            <a (click)="signUp=false; signupnotfull=true"style="text-align: center; padding:1%;">Ya tengo cuenta</a>
+
+
+    </form>
+  </div>

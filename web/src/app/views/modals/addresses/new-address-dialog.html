@@ -1,0 +1,77 @@
+<h1 mat-dialog-title><!--mat-icon>add_location</mat-icon--> Nueva dirección </h1>
+<!--div mat-dialog-content>
+  <form [formGroup]="addressInfo" style="min-height:350px">
+        <mat-form-field class="pt-1 pb-1" style="margin-right:2%; margin-left:2%; width:96%">
+            <mat-label>Dirección:</mat-label>
+            <input matInput formControlName="address"  matGoogleMapsAutocomplete
+               (onAutocompleteSelected)="onAutocompleteSelected($event)">
+        </mat-form-field>
+        <div style="border:1px solid lightgrey; margin:2%; border-radius: 10px">
+            <div style="width:96%; margin-right:2%; margin-left:2%">
+                <mat-form-field class="pt-1 pb-1" style="margin-right:2%; margin-left:2%; width:76%">
+                    <mat-label>Calle:</mat-label>
+                    <input matInput formControlName="street" required>
+                </mat-form-field>
+                <mat-form-field class="pt-1 pb-1" style="margin-right:2%; margin-left:2%; width:16%">
+                    <mat-label>Número:</mat-label>
+                    <input matInput type="number" formControlName="number">
+                </mat-form-field>
+            </div>
+            <mat-form-field class="pt-1 pb-1" style="width:92%; margin-right:4%; margin-left:4%">
+                <mat-label>Tipo:</mat-label>
+                <mat-select formControlName="type" required>
+                    <mat-option value="1">Domicilio</mat-option>
+                    <mat-option value="2">Hospital</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <div style="width:96%; margin-right:2%; margin-left:2%" *ngIf="addressInfo.getRawValue().type=='1'">
+                <mat-form-field class="pt-1 pb-1" style="margin-right:2%; margin-left:2%; width:29%">
+                    <mat-label>Escalera/Portal:</mat-label>
+                    <input matInput formControlName="portal">
+                </mat-form-field>
+                <mat-form-field class="pt-1 pb-1" style="margin-right:2%; margin-left:2%; width:29%">
+                    <mat-label>Piso:</mat-label>
+                    <input matInput formControlName="piso">
+                </mat-form-field>
+                <mat-form-field class="pt-1 pb-1" style="margin-right:2%; margin-left:2%; width:29%">
+                    <mat-label>CP:</mat-label>
+                    <input matInput formControlName="cp">
+                </mat-form-field>
+            </div>
+            <div style="width:96%; margin-right:2%; margin-left:2%" *ngIf="addressInfo.getRawValue().type=='2'">
+                <mat-form-field class="pt-1 pb-1" style="margin-right:2%; margin-left:2%; width:46%">
+                    <mat-label>Planta:</mat-label>
+                    <input matInput type="number" formControlName="floor">
+                </mat-form-field>
+                <mat-form-field class="pt-1 pb-1" style="margin-right:2%; margin-left:2%; width:46%">
+                    <mat-label>Habitación:</mat-label>
+                    <input matInput formControlName="room">
+                </mat-form-field>
+            </div>
+            <div style="width:96%; margin-right:2%; margin-left:2%" >
+                <mat-form-field class="pt-1 pb-1" style="margin-right:2%; margin-left:2%; width:29%">
+                    <mat-label>Localidad:</mat-label>
+                    <input matInput formControlName="locality" required>
+                </mat-form-field>
+                <mat-form-field class="pt-1 pb-1" style="margin-right:2%; margin-left:2%; width:29%">
+                    <mat-label>Ciudad:</mat-label>
+                    <input matInput formControlName="city" required>
+                </mat-form-field>
+                <mat-form-field class="pt-1 pb-1" style="margin-right:2%; margin-left:2%; width:29%">
+                    <mat-label>País:</mat-label>
+                    <input matInput formControlName="country" required>
+                </mat-form-field>
+            </div>
+            <mat-form-field class="pt-1 pb-1" style="margin-right:4%; margin-left:4%; width:92%">
+                <mat-label>Información adicional:</mat-label>
+                <input matInput formControlName="aditional">
+            </mat-form-field>
+        </div>
+    </form>
+
+</div>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancelar</button>
+    <button mat-button [mat-dialog-close]="true" (click)="saveAddress()" *ngIf="data.id==''">Guardar</button>
+    <button mat-button [mat-dialog-close]="true" (click)="changeAddress(data.id)" *ngIf="data.id!=''">Actualizar</button>
+</mat-dialog-actions-->

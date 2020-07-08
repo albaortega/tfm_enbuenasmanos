@@ -1,0 +1,78 @@
+
+#confworkers .mat-header-row{
+  background-color: rgba(34, 42, 69, 0.2);
+  border-bottom: 1px solid dimgrey;
+}
+#confadmins .mat-header-row{
+  background-color: rgba(34, 42, 69, 0.2);
+  border-bottom: 1px solid dimgrey;
+}
+.roundtable{
+  border-radius:5px;
+  border: 0.5px solid lightgrey;
+}
+#filter, #filterAdmin{
+  	font-size: 14px;
+  	width: 40%;
+	float:right;
+	padding-right: 2%;
+	margin-right: 1%;
+}
+.mat-column-status {
+  flex: 0 0 5% !important;
+  width: 5% !important;
+}
+#confworkers .mat-column-actions {
+  flex: 0 0 21% !important;
+  width: 21% !important;
+}
+#confadmins .mat-column-actions {
+  flex: 0 0 15% !important;
+  width: 15% !important;
+}
+.mat-column-dni {
+  flex: 0 0 25% !important;
+  width: 25% !important;
+}
+.mat-column-phone {
+  flex: 0 0 16% !important;
+  width: 16% !important;
+}
+#confworkers .mat-column-name {
+  flex: 0 0 21% !important;
+  width: 21% !important;
+}
+#confadmins .mat-column-name {
+  flex: 0 0 25% !important;
+  width: 25% !important;
+}
+.mat-column-picture {
+  flex: 0 0 10% !important;
+  width: 10% !important;
+}
+#confworkers .mat-column-email {
+  flex: 0 0 26% !important;
+  width: 26% !important;
+}
+#confadmins .mat-column-email {
+  flex: 0 0 25% !important;
+  width: 25% !important;
+}
+.mediumseagreen{
+  border-left: 10px solid mediumseagreen;
+}
+.pending{
+  border-left: 10px solid orange;
+}
+.mat-column-actions a{
+  margin:1%;
+}
+.mat-tab-label{
+  width:50%;
+  text-align: center;
+}
+.mat-tab-label-active{
+  background-color: rgba(34, 42, 69, 0.2);
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}

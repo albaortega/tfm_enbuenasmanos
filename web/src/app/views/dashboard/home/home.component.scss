@@ -1,0 +1,45 @@
+.opciones{
+  width: 33%;
+}
+.tarjetaopciones{
+  text-align: center;
+  height: 100px;
+}
+.tarjetaopciones:hover{
+  cursor: pointer;
+}
+#first{
+  background-color: lightgrey;
+  border: 1px solid grey;
+}
+#second{
+  background-color: lightblue;
+  border: 1px solid dodgerblue;
+}
+#third{
+  background-color: lightpink;
+  border: 1px solid hotpink;
+}
+.text-muted{
+  width: 100%;
+}
+.selected{
+  border: 2px solid slategrey;
+}
+.disabled{
+  opacity: 0.5;
+}
+.newService{
+  width: 100%;
+}
+.inputnewService{
+  width:46%;
+  margin-right:2%;
+  margin-left:2%;
+}
+.half {
+  width:50%
+}
+.complete{
+  width: 100%;
+}

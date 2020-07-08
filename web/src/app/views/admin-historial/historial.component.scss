@@ -1,0 +1,71 @@
+#historial .mat-header-row{
+  background-color: lightgrey;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+.empty{
+  border-bottom: 0.5px solid lightgrey;
+  padding: 1%;
+}
+.pending{
+  border-left: 10px solid orange;
+}
+.cornflowerblue{
+  border-left: 10px solid cornflowerblue;
+}
+.forestgreen{
+  border-left: 10px solid forestgreen;
+}
+.darkred{
+  border-left: 10px solid darkred;
+}
+.blueviolet{
+  border-left: 10px solid blueviolet;
+}
+.mat-column-start_date {
+  flex: 0 0 9% !important;
+  width: 9% !important;
+  padding: 0 0.5%;
+}
+.mat-column-end_date {
+  flex: 0 0 9% !important;
+  width: 9% !important;
+  padding: 0 0.5%;
+}
+.mat-column-action {
+  flex: 0 0 8% !important;
+  width: 8% !important;
+}
+.mat-column-type {
+  flex: 0 0 8% !important;
+  width: 8% !important;
+}
+.mat-column-user {
+  flex: 0 0 14% !important;
+  width: 14% !important;
+  padding: 0 0.5%;
+}
+.mat-column-address {
+  flex: 0 0 18% !important;
+  width: 18% !important;
+  padding: 0 0.5%;
+}
+.mat-column-worker {
+  flex: 0 0 14% !important;
+  width: 14% !important;
+  padding: 0 0.5%;
+}
+.mat-column-client {
+  flex: 0 0 14% !important;
+  width: 14% !important;
+  padding: 0 0.5%;
+}
+#filter{
+  	font-size: 14px;
+  	width: 40%;
+	float:right;
+}
+.filterColumn{
+  margin:0 1%;
+  width: 18%;
+}

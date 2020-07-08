@@ -1,0 +1,52 @@
+
+#confworkers .mat-header-row{
+  background-color: rgba(34, 42, 69, 0.2);
+  border-bottom: 1px solid dimgrey;
+}
+.roundtable{
+  border-radius:5px;
+  border: 0.5px solid lightgrey;
+}
+#filter{
+  	font-size: 14px;
+  	width: 40%;
+	float:right;
+	padding-right: 2%;
+	margin-right: 1%;
+}
+.mat-column-picture {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 10% !important;
+  width: 10% !important;
+}
+.mat-column-name {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 20% !important;
+  width: 20% !important;
+}
+.mat-column-email {
+	word-wrap: break-word !important;
+	white-space: unset !important;
+	flex: 0 0 25% !important;
+	width: 25% !important;
+}
+.mat-column-phone{
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 12% !important;
+  width: 12% !important;
+}
+.mat-column-final_date {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 12% !important;
+  width: 12% !important;
+}
+.mat-column-actions{
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 20% !important;
+  width: 20% !important;
+}

@@ -1,0 +1,10 @@
+dispatch:
+  - url: "*/favicon.ico"
+    service: default
+
+  - url: "enbuenasmanos.appspot.com/"
+    service: default
+
+    # Enruta la API en el servicio api.
+  - url: "*/api/*"
+    service: api

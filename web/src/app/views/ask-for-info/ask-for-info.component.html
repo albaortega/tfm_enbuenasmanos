@@ -1,0 +1,39 @@
+
+<mat-card-title> <h1><strong>Solicitar información</strong></h1></mat-card-title>
+<hr>
+<mat-card-content id="askForInfo">
+    <form>
+        <mat-form-field appearance="outline" style="width:100%">
+            <mat-label>Email:</mat-label>
+            <input type="email" matInput required  pattern="[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}" [formControl]="email">
+        </mat-form-field>
+        <div >
+            Servicios sobre los que se solicita información:
+            <mat-card #serviceKids fxLayout="row wrap" fxLayoutAlign="start center" (click)="selectService('Kids')" style="padding: 8px; border-radius: 10px">
+              <img  src="assets/images/kids.jpg" alt="" style="width:20%; border-radius: 10px">
+              <div class="titleCard">
+                <div class="font-weight-bold" style="width:80%;display:inline-block"> Servicio cuidado infantil</div>
+                <div style="width:20%;display:inline-block" *ngIf="services.indexOf('Kids')!=-1"><mat-icon style="vertical-align: middle">done</mat-icon></div>
+              </div>
+            </mat-card>
+            <mat-card #serviceHome fxLayout="row wrap" fxLayoutAlign="start center" (click)="selectService('Home')" style="padding: 8px; border-radius: 10px">
+              <img  src="assets/images/home.jpeg" alt="" style="width:20%; border-radius: 10px">
+              <div class="titleCard">
+                <div class="font-weight-bold" style="width:80%;display:inline-block"> Servicio cuidado adultos</div>
+                <div style="width:20%;display:inline-block" *ngIf="services.indexOf('Home')!=-1"><mat-icon style="vertical-align: middle">done</mat-icon></div>
+              </div>
+            </mat-card>
+            <mat-card #serviceHospital fxLayout="row wrap" fxLayoutAlign="start center" (click)="selectService('Hospital')" style="padding: 8px; border-radius: 10px">
+              <img src="assets/images/hospital.jpg" alt="" style="width:20%; border-radius: 10px">
+              <div class="titleCard">
+                <div class="font-weight-bold" style="width:80%;display:inline-block"> Servicio cuidado en hospital</div>
+                <div style="width:20%;display:inline-block" *ngIf="services.indexOf('Hospital')!=-1"><mat-icon style="vertical-align: middle">done</mat-icon></div>
+              </div>
+            </mat-card>
+        </div>
+    </form>
+</mat-card-content>
+<mat-dialog-actions align="end">
+    <button mat-button (click)="close()">Cancelar</button>
+    <button mat-button (click)="askForInfo()">Solicitar</button>
+</mat-dialog-actions>

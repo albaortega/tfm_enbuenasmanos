@@ -1,0 +1,118 @@
+<!--mat-card id="details-service"-->
+    <mat-card-title> <h1><strong>Detalles de servicio</strong></h1></mat-card-title>
+    <hr>
+    <mat-card-content id="service-details">
+        <div style="margin:5%;max-height:350px; overflow-y: scroll; border-bottom:1px solid lightgrey">
+            <div *ngIf="type=='domicilio'"><h2>Servicio a domicilio con adultos <mat-icon>home</mat-icon></h2></div>
+            <div *ngIf="type=='infantil'"><h2>Servicio a domicilio infantil <mat-icon>face</mat-icon></h2></div>
+            <div *ngIf="type=='hospital'"><h2>Servicio en hospital <mat-icon>local_hospital</mat-icon></h2></div>
+            <mat-card class="dates-details section">
+                <mat-card-title><mat-icon>today</mat-icon> Fechas</mat-card-title>
+                <hr>
+                <mat-card-content>
+                    <div class="columnDetail"><strong>Fecha de inicio: </strong> {{start_date}} </div>
+                    <div class="columnDetail" *ngIf="!open_end_date"><strong>Fecha de fin: </strong> {{end_date}} </div>
+                    <div class="columnDetail" *ngIf="open_end_date"><strong>Fecha de fin abierta</strong></div>
+                </mat-card-content>
+            </mat-card>
+            <mat-card class="client-details section">
+                <mat-card-title><mat-icon>person</mat-icon> Cliente</mat-card-title>
+                <hr>
+                <mat-card-content>
+                    <div class="columnDetail"><strong>Nombre: </strong> {{clientDetails.name}} </div>
+                    <div class="columnDetail"><strong>Email: </strong> {{clientDetails.email}} </div>
+                    <div class="columnDetail"><strong>Teléfono: </strong> {{phone}} </div>
+                </mat-card-content>
+            </mat-card>
+            <mat-card class="user-details section">
+                <mat-card-title><mat-icon>info</mat-icon> Información</mat-card-title>
+                <hr>
+                <mat-card-content>
+                    <div *ngFor="let element of userDetails; let index= index">
+                        <hr *ngIf="index>0">
+                        <div class="columnDetail"><strong>Nombre: </strong> {{element.name}} </div>
+                        <div class="columnDetail"><strong>Edad: </strong> {{element.age}} </div>
+                        <div *ngIf="element.type==1">
+                            <div style="margin: 0 2% 0 2%;"><strong>Observaciones: </strong> {{element.observations}}</div>
+                        </div>
+                        <div *ngIf="element.type==2">
+                            <div class="columnDetail"><strong>Grado de dependencia: </strong> {{element.dependence}} </div>
+                            <div class="columnDetail" *ngIf="element.disability==0"><strong>Discapacidad: </strong> No </div>
+                            <div class="columnDetail" *ngIf="element.disability!=0"><strong>Discapacidad: </strong> {{element.disability}} </div>
+                            <div style="margin: 0 2% 0 2%;" *ngIf="element.disability!=0"><strong>Descripción de discapacidad: </strong> {{element.desc_disability}} </div>
+                            <div style="margin: 0 2% 0 2%;"><strong>Pautas: </strong> {{element.pattern}}</div>
+                        </div>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+            <mat-card class="address-details section">
+                <mat-card-title><mat-icon>location_on</mat-icon> Dirección</mat-card-title>
+                <hr>
+                <mat-card-content>
+                    <div class="columnDetail"><strong>Calle: </strong> {{addressDetails.street}} </div>
+                    <div class="columnDetail"><strong>Nº: </strong> {{addressDetails.number}} </div>
+                    <div *ngIf="addressDetails.type==1">
+                        <div class="columnDetail"><strong>Portal: </strong> {{addressDetails.portal}} </div>
+                        <div class="columnDetail"><strong>Piso: </strong> {{addressDetails.piso}} </div>
+                    </div>
+                    <div *ngIf="addressDetails.type==2">
+                        <div class="columnDetail"><strong>Planta: </strong> {{addressDetails.floor}} </div>
+                        <div class="columnDetail"><strong>Habitación: </strong> {{addressDetails.room}} </div>
+                    </div>
+                    <div class="columnDetail"><strong>CP: </strong> {{addressDetails.cp}} </div>
+                    <div class="columnDetail"><strong>Localidad: </strong> {{addressDetails.locality}} </div>
+                    <div class="columnDetail"><strong>Ciudad: </strong> {{addressDetails.city}} </div>
+                    <div class="columnDetail"><strong>País: </strong> {{addressDetails.country}} </div>
+                </mat-card-content>
+            </mat-card>
+            <mat-card class="worker-details section">
+                <mat-card-title><mat-icon>work</mat-icon> Trabajador asociado</mat-card-title>
+                <hr>
+                <mat-card-content>
+                    <div *ngIf="workerDetails==null"> No hay trabajador asociado aún</div>
+                    <div *ngIf="workerDetails!=null" class="columnDetail"><strong>Nombre: </strong> {{workerDetails.name}} </div>
+                    <div *ngIf="workerDetails!=null" class="columnDetail"><strong>Email: </strong> {{workerDetails.email}} </div>
+                    <div *ngIf="workerDetails!=null" class="columnDetail"><strong>Teléfono: </strong> {{workerDetails.phone}} </div>
+                </mat-card-content>
+            </mat-card>
+            <mat-card class="schedule-details section">
+                <mat-card-title><mat-icon>schedule</mat-icon> Horario</mat-card-title>
+                <hr>
+                <mat-card-content>
+                    <div class="columnDetail"><strong>Tipo de servicio: </strong>
+                        <div *ngIf="occupation_type=='daily'" >Servicio 24 horas</div>
+                        <div *ngIf="occupation_type=='hourly'" >Servicio por horas</div>
+                    </div>
+                    <div class="columnDetail" ><strong>Horario: </strong>
+                        <div *ngFor="let day of days" style="margin-left: 5%">
+                            <div *ngIf="day=='monday'">Lunes
+                                <div *ngIf="schedule[day]!=true" style="display:inline-block">:  {{schedule[day].start}} - {{schedule[day].end}}</div>
+                            </div>
+                            <div *ngIf="day=='tuesday'">Martes
+                                <div *ngIf="schedule[day]!=true" style="display:inline-block">:  {{schedule[day].start}} - {{schedule[day].end}}</div>
+                            </div>
+                            <div *ngIf="day=='wednesday'">Miércoles
+                                <div *ngIf="schedule[day]!=true" style="display:inline-block">:  {{schedule[day].start}} - {{schedule[day].end}}</div>
+                            </div>
+                            <div *ngIf="day=='thursday'">Jueves
+                                <div *ngIf="schedule[day]!=true" style="display:inline-block">:  {{schedule[day].start}} - {{schedule[day].end}}</div>
+                            </div>
+                            <div *ngIf="day=='friday'">Viernes
+                                <div *ngIf="schedule[day]!=true" style="display:inline-block">:  {{schedule[day].start}} - {{schedule[day].end}}</div>
+                            </div>
+                            <div *ngIf="day=='saturday'">Sábado
+                                <div *ngIf="schedule[day]!=true" style="display:inline-block">:  {{schedule[day].start}} - {{schedule[day].end}}</div>
+                            </div>
+                            <div *ngIf="day=='sunday'">Domingo
+                                <div *ngIf="schedule[day]!=true" style="display:inline-block">:  {{schedule[day].start}} - {{schedule[day].end}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+        <mat-dialog-actions align="end">
+                <button mat-button [mat-dialog-close]="true" mat-dialog-close>OK</button>
+            </mat-dialog-actions>
+    </mat-card-content>
+<!--/mat-card-->

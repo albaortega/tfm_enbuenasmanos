@@ -1,0 +1,16 @@
+service: api
+runtime: python37
+
+instance_class: B1
+basic_scaling:
+  max_instances: 1
+
+handlers:
+
+# API - Enruta hacia la aplicación que sirve la API.
+- url: /api/.*
+  script: auto
+  secure: always
+
+env_variables:
+  GOOGLE_CLOUD_PROJECT: 'enbuenasmanos'

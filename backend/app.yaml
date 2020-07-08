@@ -1,0 +1,16 @@
+runtime:  python37
+
+instance_class: F1
+
+handlers:
+
+# Recursos estáticos para la web (js, css, etc.).
+- url: /(.*\.(gif|png|jpg|css|js|json|svg|eot|woff2|ttf|woff|map|xls))$
+  static_files: dist/\1
+  upload: dist/(.*)
+  secure: always
+
+- url: /(.*)
+  static_files: dist/index.html
+  upload: dist/index.html
+  secure: always

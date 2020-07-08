@@ -1,0 +1,99 @@
+<mat-card id="worker-historial">
+    <mat-card-title> <h1><strong>Historial</strong></h1></mat-card-title>
+    <hr>
+    <mat-card-content>
+        <form style="display: flex; margin-bottom:2%" [formGroup]="formControl">
+            <div style="border:1px solid lightgrey;border-radius:10px;margin:0 0 1% 0;padding:1% 1% 0 1%;width:100%">
+                <mat-form-field id="filterStatus" class="row" class="filterColumn">
+                    <mat-label>Estado:</mat-label>
+                    <mat-select formControlName="status">
+                        <mat-option value=""></mat-option>
+                        <mat-option value="accepted"> Aceptado</mat-option>
+                        <mat-option value="active"> Activo</mat-option>
+                        <mat-option value="finished"> Finalizado</mat-option>
+                    </mat-select>
+                    <mat-icon matSuffix (click)="clearDate($event, 'status')" *ngIf="formControl.get('status').value!=''" style="font-size:medium; cursor:pointer;">clear</mat-icon>
+                </mat-form-field>
+                <mat-form-field id="filterType" class="row" class="filterColumn">
+                    <mat-label>Tipo:</mat-label>
+                    <mat-select formControlName="type">
+                        <mat-option value=""></mat-option>
+                        <mat-option value="hospital">Hospital</mat-option>
+                        <mat-option value="domicilio">Domicilio adulto</mat-option>
+                        <mat-option value="infantil">Domicilio infantil</mat-option>
+                    </mat-select>
+                    <mat-icon matSuffix (click)="clearDate($event, 'type')" *ngIf="formControl.get('type').value!=''" style="font-size:medium; cursor:pointer;">clear</mat-icon>
+                </mat-form-field>
+                <mat-form-field id="filterStart" class="row" class="filterColumn">
+                    <mat-label>Comienzo:</mat-label>
+                    <input matInput [matDatepicker]="picker" formControlName="start_date">
+                    <mat-icon matSuffix (click)="clearDate($event, 'start_date')" *ngIf="formControl.get('start_date').value!=''" style="font-size:medium; cursor:pointer;">clear</mat-icon>
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+                <mat-form-field id="filterEnd" class="row" class="filterColumn">
+                    <mat-label>Fin:</mat-label>
+                    <input matInput [matDatepicker]="picker2" formControlName="end_date">
+                    <mat-icon matSuffix (click)="clearDate($event, 'end_date')" *ngIf="formControl.get('end_date').value!=''" style="font-size:medium; cursor:pointer;">clear</mat-icon>
+                    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                    <mat-datepicker #picker2></mat-datepicker>
+                </mat-form-field>
+                <mat-form-field class="row" class="filterColumn">
+                    <input matInput formControlName="text">
+                    <mat-icon matSuffix (click)="clearDate($event, 'text')" *ngIf="formControl.get('text').value!=''" style="font-size:medium; cursor:pointer;">clear</mat-icon>
+                    <mat-icon matSuffix>search</mat-icon>
+                </mat-form-field>
+            </div>
+        </form>
+        <small style="text-align:right; margin-right:2%; display:inline-block;margin-bottom:1%; opacity:70%">
+            <mat-icon style="color:cornflowerblue;vertical-align:middle;font-size:medium">lens</mat-icon> Aceptado  /
+            <mat-icon style="color:forestgreen;vertical-align:middle;font-size:medium">lens</mat-icon> Activo  /
+            <mat-icon style="color:darkred;vertical-align:middle;font-size:medium">lens</mat-icon> Finalizado
+        </small>
+        <small style="text-align:right;display:inline-block; float:right; opacity:70%">
+            <mat-icon style="vertical-align: middle; font-size:large"> local_hospital</mat-icon> Hospital  /
+            <mat-icon style="vertical-align: middle; font-size:large">home</mat-icon> Domicilio adulto  /
+            <mat-icon style="vertical-align: middle; font-size:large">face</mat-icon> Domicilio infantil
+        </small>
+        <mat-table [dataSource]="this.listService" style="overflow-x:auto;" class="roundtable">
+            <ng-container matColumnDef="type">
+                <mat-header-cell *matHeaderCellDef>Tipo</mat-header-cell>
+                <mat-cell class="col-10" *matCellDef="let element">
+                    <mat-icon style="width:10%"  class="columnSolicitud" *ngIf="element.type=='hospital'">local_hospital</mat-icon>
+                    <mat-icon style="width:10%"  class="columnSolicitud" *ngIf="element.type=='domicilio'">home</mat-icon>
+                    <mat-icon style="width:10%"  class="columnSolicitud"*ngIf="element.type=='infantil'">face</mat-icon>
+                </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="user">
+                <mat-header-cell *matHeaderCellDef>Asistido</mat-header-cell>
+                <mat-cell class="col-10" *matCellDef="let element"><h5>{{element.user}} </h5> </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="address">
+                <mat-header-cell *matHeaderCellDef>Dirección</mat-header-cell>
+                <mat-cell class="col-10" *matCellDef="let element"><h5>{{element.address}}</h5></mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="start_date">
+                <mat-header-cell *matHeaderCellDef style="margin-left:10px">Comienzo</mat-header-cell>
+                <mat-cell class="col-10" *matCellDef="let element" [className]="element.status=='accepted' ? 'cornflowerblue' : element.status=='active' ? 'forestgreen' : element.status=='finished' ? 'darkred': ''"><h5>{{element.start_date}}</h5></mat-cell>
+            </ng-container>
+             <ng-container matColumnDef="end_date">
+                <mat-header-cell *matHeaderCellDef>Final</mat-header-cell>
+                <mat-cell class="col-10" *matCellDef="let element"><h5>{{element.end_date}}</h5></mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="worker">
+                <mat-header-cell *matHeaderCellDef>Usuario</mat-header-cell>
+                <mat-cell class="col-10" *matCellDef="let element"><h5>{{element.client_details.name}}</h5></mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="action">
+                <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                <mat-cell class="col-2" *matCellDef="let element">
+                    <a href="javascript:" class="btn btn-secondary col-1" (click)="viewDetailService(element.id)"><mat-icon style="font-size: large;">info</mat-icon></a>
+
+                </mat-cell>
+            </ng-container>
+            <mat-header-row *matHeaderRowDef="ServiceColumn"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: ServiceColumn;"></mat-row>
+        </mat-table>
+        <p *ngIf="this.listService.data.length==0" class="text-center pt-3 empty"> No existen servicios</p>
+    </mat-card-content>
+</mat-card>

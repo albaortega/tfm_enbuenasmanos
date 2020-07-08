@@ -1,0 +1,24 @@
+#assign .solicitudes{
+    background-color: #e6e1e1;
+}
+#assign .columnSolicitud{
+  display: inline-block;
+  vertical-align: middle;
+  margin:0 1%;
+  text-align: center;
+}
+.mat-icon{
+  vertical-align: middle;
+}
+.worker{
+  margin-left: 5%;
+}
+.active{
+  border-left: 10px solid green;
+}
+.medium{
+  border-left: 10px solid orange;
+}
+#assign .selected{
+  background-color: #fae393;
+}

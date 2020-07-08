@@ -1,0 +1,40 @@
+<!--mat-card id="details-service"-->
+    <mat-card-title> <h1><strong>Asignar servicio</strong></h1></mat-card-title>
+    <hr>
+    <mat-card-content id="assign">
+        <mat-card class="solicitudes" (dblclick)="viewDetails(data.id)">
+            <mat-card-content style="width:100%">
+                <mat-icon style="width:7%"  class="columnSolicitud" *ngIf="type=='hospital'">local_hospital</mat-icon>
+                <mat-icon style="width:7%"  class="columnSolicitud" *ngIf="type=='domicilio'">home</mat-icon>
+                <mat-icon style="width:7%"  class="columnSolicitud"*ngIf="type=='infantil'">face</mat-icon>
+                <small style="width:20%" class="columnSolicitud"><mat-icon style="color:grey; vertical-align: middle;">today</mat-icon>  {{start_date}} - {{end_date}}</small>
+                <small style="width:24%" class="columnSolicitud"><mat-icon style="color:grey; vertical-align: middle;">location_on</mat-icon>{{address}}</small>
+                <p style="width:17%; display:inline-block" class="columnSolicitud"><mat-icon style="color:grey; vertical-align: middle;">person</mat-icon>{{user}}</p>
+                <small style="width:20%" class="columnSolicitud">
+                    <mat-icon style="color:grey; vertical-align: middle;">person</mat-icon> {{client_details.name}}, {{phone}}
+                </small>
+            </mat-card-content>
+        </mat-card>
+        <hr>
+        <div style="padding:2%">
+            <h3><strong> Trabajadores disponibles: </strong> </h3>
+            <div style="margin-top:2%;max-height:300px;overflow-y:scroll;">
+                <mat-card *ngFor="let worker of listWorkers, let i = index" class="worker" [className]="worker.free ? 'active':'medium'"
+                [attr.data-selected]="false"
+                (click)="selectWorker(selected[i],i)"
+                [class.selected]="selected[i]" >
+                    <mat-card-content>
+                        <div style="display:inline-block;width:40%"><mat-icon>person</mat-icon>{{worker.name}}</div>
+                        <div style="display:inline-block;width:40%"><mat-icon>email</mat-icon>{{worker.email}}</div>
+                        <div style="display:inline-block;width:20%"><mat-icon>phone</mat-icon>{{worker.phone}}</div>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+            <p style="text-align: center;padding:5%" *ngIf="lenListWorkers==0"> No existen trabajadores disponibles que cumplan las condiciones para cubrir este servicio</p>
+        </div>
+        <mat-dialog-actions align="end">
+            <button mat-button mat-dialog-close>Cancelar</button>
+            <button mat-button [disabled]="worker_selected==null" (click)="assignWorker()">Asignar</button>
+        </mat-dialog-actions>
+    </mat-card-content>
+<!--/mat-card-->

@@ -1,0 +1,1270 @@
+<mat-card>
+    <mat-card-title> <h1><strong>Nuevo servicio </strong></h1></mat-card-title>
+    <hr>
+    <mat-card-content>
+        <!-- Dashboard card row -->
+        <div fxLayout="row wrap">
+            <div class="opciones" [className]="type!='hospital' && selected ? 'disabled' : 'enable'">
+                <mat-card id="first" class="tarjetaopciones" (click)="choose_service('hospital')">
+                    <mat-card-title fxLayoutAlign="start center">
+                        <h3 class="text-muted">Asistencia en hospital</h3>
+                        <span fxFlex></span>
+                    </mat-card-title>
+                    <hr>
+                    <mat-card-content class="text-muted">
+                        <div style="display: inline-block; width: 20%; text-align: center;">
+                            <mat-icon style="font-size: xx-large;">local_hospital</mat-icon>
+                        </div>
+                        <div style="display: inline-block; width: 80%; padding-left:10%">
+                            Acompañamos en la estancia en un centro hospitalario.
+                        </div>
+                    </mat-card-content>
+                </mat-card>
+                <hr *ngIf="type=='hospital'" class="selected">
+            </div>
+
+            <div  class="opciones" [className]="type!='domicilio' && selected ? 'disabled' : 'enable'">
+                <mat-card id="second" class="tarjetaopciones" (click)="choose_service('domicilio')">
+                    <mat-card-title>
+                        <h3 class="text-muted">Asistencia domicilio adultos</h3>
+                        <span fxFlex></span>
+                    </mat-card-title>
+                    <hr style="border: 0.5px solid dodgerblue">
+                    <mat-card-content class="text-muted">
+                        <div style="display: inline-block; width: 20%; text-align: center;">
+                            <mat-icon style="font-size: xx-large;">house</mat-icon>
+                        </div>
+                        <div style="display: inline-block; width: 80%; padding-left:10%">
+                            Cuidamos a tus seres queridos en su domicilio.
+                        </div>
+                    </mat-card-content>
+                </mat-card>
+                <hr *ngIf="type=='domicilio'" class="selected">
+            </div>
+
+            <div  class="opciones" [className]="type!='infantil' && selected ? 'disabled' : 'enable'">
+                <mat-card id="third" class="tarjetaopciones" (click)="choose_service('infantil')">
+                    <mat-card-title>
+                        <h3 class="text-muted">Asistencia domicilio infantil</h3>
+                        <span fxFlex></span>
+                    </mat-card-title>
+                    <hr style="border:0.5px solid hotpink">
+                    <mat-card-content class="text-muted">
+                        <div style="display: inline-block; width: 20%; text-align: center;">
+                            <mat-icon style="font-size: xx-large;">face</mat-icon>
+                        </div>
+                        <div style="display: inline-block; width: 80%; padding-left:10%">
+                            Cuidamos de los más pequeños de la casa.
+                        </div>
+                    </mat-card-content>
+                </mat-card>
+                <hr *ngIf="type=='infantil'" class="selected">
+            </div>
+        </div>
+        <div fxLayout="row wrap" *ngIf="type!=''" style="padding:3%">
+            <div id="formNewServiceHospital" *ngIf="type=='hospital'" class="newService">
+                <h2> Nueva asistencia en hospital </h2>
+                <form>
+                    <mat-horizontal-stepper [linear]="true" #stepper>
+                    <mat-step [stepControl]="personalInfo">
+                        <form [formGroup]="personalInfo" style="min-height:350px">
+                            <ng-template matStepLabel>Datos personales cliente</ng-template>
+                            <mat-form-field class="pt-1 pb-1 inputnewService">
+                                <mat-label> Nombre:</mat-label>
+                                <input matInput placeholder="Nombre" formControlName="name" required [disabled]="personalInfo.getRawValue().name!=''">
+                            </mat-form-field>
+                            <mat-form-field class="pt-1 pb-1 inputnewService">
+                                <mat-label> DNI:</mat-label>
+                                <input matInput placeholder="DNI" formControlName="dni" required >
+                            </mat-form-field>
+                            <mat-form-field class="pt-1 pb-1 inputnewService">
+                                <mat-label> Email:</mat-label>
+                                <input matInput placeholder="Email" formControlName="email" required >
+                            </mat-form-field>
+
+                            <mat-form-field class="pt-1 pb-1 inputnewService">
+                                <mat-label> Teléfono:</mat-label>
+                                <mat-select formControlName="phone" required>
+                                    <mat-option *ngFor="let phone of phonesList" [value]="phone.number">
+                                      {{phone.number}}
+                                    </mat-option>
+                                    <hr style="margin-bottom:0">
+                                    <mat-option (click)="newPhone()" style="background-color:lightgrey">-Añadir nuevo teléfono-</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <div style="margin-left:4%">
+                                <button mat-raised-button color="primary" matStepperNext>Siguiente</button>
+                            </div>
+                        </form>
+                    </mat-step>
+                    <mat-step [stepControl]="patientInfo">
+                        <form [formGroup]="patientInfo" style="min-height:350px">
+                            <ng-template matStepLabel>Datos personales paciente</ng-template>
+                            <table class="table table-striped table-bordered" style="width:100%">
+                                <tbody>
+                                    <tr>
+                                        <td style="width:90%">
+                                            <mat-form-field class="pt-1 pb-1" style="margin-left:4%; margin-right: 4%; width:92%">
+                                                <mat-select formControlName="user" required>
+                                                    <div style="max-height:200px;overflow: scroll">
+                                                        <mat-option *ngFor="let person of newPeople" [value]="person.id">
+                                                          {{person.name}}, {{person.age}}
+                                                        </mat-option>
+                                                    </div>
+                                                    <hr style="margin-bottom: 0">
+                                                    <mat-option (click)="newPerson()" style="background-color:lightgrey; position:sticky;">-Añadir nueva persona-</mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </td>
+                                        <td style="width:10%">
+                                            <button class="btn btn-default" type="button" (click)="addFieldValue('todos')" mat-raised-button style="background-color: green; color: white;"><mat-icon>done</mat-icon>Asistir</button>
+                                        </td>
+                                    </tr>
+                                    <tr *ngFor="let field of fieldArray; let i = index">
+                                        <td style="width:90%">
+                                           <mat-form-field class="pt-1 pb-1" style="margin-left:4%; margin-right: 4%; width:92%">
+                                                <mat-select formControlName="user" required disabled>
+                                                    <mat-option *ngFor="let person of people" [value]="person.id">
+                                                      {{person.name}}, {{person.age}}
+                                                    </mat-option>
+                                                </mat-select>
+                                          </mat-form-field>
+                                        </td>
+                                        <td style="width:10%">
+                                            <button class="btn btn-default"  type="button" (click)="deleteFieldValue(i)" mat-raised-button color="warn"><mat-icon>delete</mat-icon>Eliminar</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div style="margin-left:4%">
+                                <button mat-raised-button color="accent" matStepperPrevious>Atrás</button>
+                                <span fxFlex="8px"></span>
+                                <button mat-raised-button color="primary" (click)="goNext(stepper,'user')">Siguiente</button>
+                            </div>
+
+
+                        </form>
+                    </mat-step>
+                    <mat-step [stepControl]="addressInfo">
+                        <form [formGroup]="addressInfo" style="min-height:350px">
+                            <ng-template matStepLabel>Dirección</ng-template>
+                            <mat-form-field class="pt-1 pb-1" style="margin-left:4%; margin-right:4%; width:92%;">
+                                <mat-label>Dirección:</mat-label>
+                                <mat-select formControlName="address" required>
+                                    <mat-option *ngFor="let address of hospitalAddress" [value]="address.id">
+                                      {{address.street}} {{address.number}}, {{address.city}}
+                                    </mat-option>
+                                    <hr style="margin-bottom: 0">
+                                    <mat-option (click)="newAddress()" style="background-color:lightgrey">-Añadir nueva dirección-</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <div fxLayout="row" style="margin-left:4%">
+                                <button mat-raised-button color="accent" matStepperPrevious>Atrás</button>
+                                <span fxFlex="8px"></span>
+                                <button mat-raised-button color="primary" matStepperNext>Siguiente</button>
+                            </div>
+                        </form>
+                    </mat-step>
+                    <mat-step [stepControl]="datesInfo">
+                        <form [formGroup]="datesInfo" style="min-height:350px">
+                            <ng-template matStepLabel>Fechas</ng-template>
+                            <mat-form-field class="pt-1 pb-1 inputnewService">
+                                <mat-label>Fecha comienzo:</mat-label>
+                                <input matInput [matDatepicker]="picker" formControlName="start_date" [min]="startminDate" (dateChange)="changeEndDate()" required>
+                                <mat-datepicker-toggle matSuffix [for]="picker" ></mat-datepicker-toggle>
+                                <mat-datepicker #picker></mat-datepicker>
+                            </mat-form-field>
+                            <div class="inputnewService" style="display:inline-block">
+                                <mat-form-field class="pt-1 pb-1 " style="width:70%">
+                                    <mat-label>Fecha final:</mat-label>
+                                    <input matInput [matDatepicker]="picker2" formControlName="end_date" [min]="endminDate" required [disabled]="this.openfinaldate.value">
+                                    <mat-datepicker-toggle matSuffix [for]="picker2" [disabled]="this.openfinaldate.value"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker2 [disabled]="this.openfinaldate.value"></mat-datepicker>
+                                </mat-form-field>
+                                <mat-checkbox (change)="disableFinalDate($event.checked)" style="margin-left:2%; width:28%;display:inline-block">Fecha final abierta</mat-checkbox>
+                            </div>
+                                                        <div class="inputnewService" style="display:inline-block;margin-bottom:3%;width:96%">
+                                <mat-checkbox [formControl]="daily" (click)="hourly.setValue(false)">Servicio 24h</mat-checkbox>
+                                <div style="margin-left:10%; width:100%; text-align:center;" *ngIf="daily.value">
+                                     <div style="padding:2% 2%;border: 1px solid grey;width: 55%;margin-bottom: 2%;border-radius: 10px;">
+                                        <div class="roundcheck" (click)="checkDaily('Monday')" #dailyMonday>L</div>
+                                        <div class="roundcheck" (click)="checkDaily('Tuesday')" #dailyTuesday>M</div>
+                                        <div class="roundcheck" (click)="checkDaily('Wednesday')" #dailyWednesday>X</div>
+                                        <div class="roundcheck" (click)="checkDaily('Thursday')" #dailyThursday>J</div>
+                                        <div class="roundcheck" (click)="checkDaily('Friday')" #dailyFriday>V</div>
+                                        <div class="roundcheck" (click)="checkDaily('Saturday')" #dailySaturday>S</div>
+                                        <div class="roundcheck" (click)="checkDaily('Sunday')" #dailySunday>D</div>
+                                     </div>
+                                </div>
+                            </div>
+                            <div class="inputnewService" style="display:inline-block; margin-bottom:3%;width:96%;">
+                                <mat-checkbox [formControl]="hourly" (click)="daily.setValue(false);">Servicio por horas</mat-checkbox>
+                                <div style="margin-left:10%; width:100%; " *ngIf="hourly.value">
+                                    <div style="padding:2% 2%;border: 1px solid grey;width: 55%;margin-bottom: 2%;border-radius: 10px;text-align:center;">
+                                        <div class="roundcheck" (click)="checkDaily('Monday')" #dailyMonday>L</div>
+                                        <div class="roundcheck" (click)="checkDaily('Tuesday')" #dailyTuesday>M</div>
+                                        <div class="roundcheck" (click)="checkDaily('Wednesday')" #dailyWednesday>X</div>
+                                        <div class="roundcheck" (click)="checkDaily('Thursday')" #dailyThursday>J</div>
+                                        <div class="roundcheck" (click)="checkDaily('Friday')" #dailyFriday>V</div>
+                                        <div class="roundcheck" (click)="checkDaily('Saturday')" #dailySaturday>S</div>
+                                        <div class="roundcheck" (click)="checkDaily('Sunday')" #dailySunday>D</div>
+                                    </div>
+
+                                    <div style="width:100%;" >
+                                        <form>
+                                        <div *ngIf="dailyMonday.classList.contains('dailyselected')" style="width:100%">
+                                            <p style="width:10%;display:inline-block">Lunes:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+                                            <mat-form-field appearance="outline" style="width:20%;">
+                                                <mat-label>Desde:</mat-label>
+                                                <input matInput [ngxTimepicker]="toggleTimepicker" required [formControl]="monday_start">
+                                                <ngx-material-timepicker-toggle matSuffix [for]="toggleTimepicker" style="font-size:xx-small"></ngx-material-timepicker-toggle>
+                                                <ngx-material-timepicker format=24 hoursOnly=true #toggleTimepicker></ngx-material-timepicker>
+                                            </mat-form-field>
+                                            -
+                                            <mat-form-field appearance="outline" style="width:20%">
+                                                <mat-label>Hasta:</mat-label>
+                                                <input matInput [ngxTimepicker]="toggleTimepicker2"required [formControl]="monday_end">
+                                                <ngx-material-timepicker-toggle matSuffix [for]="toggleTimepicker2"></ngx-material-timepicker-toggle>
+                                                <ngx-material-timepicker format=24 hoursOnly=true #toggleTimepicker2></ngx-material-timepicker>
+                                            </mat-form-field>
+                                        </div>
+                                        <div *ngIf="dailyTuesday.classList.contains('dailyselected')" style="width:100%">
+                                            <p style="width:10%;display:inline-block">Martes:&nbsp;&nbsp;&nbsp;&nbsp;</p>
+                                            <mat-form-field appearance="outline" style="width:20%;">
+                                                <mat-label>Desde:</mat-label>
+                                                <input matInput [ngxTimepicker]="toggleTimepicker3" required [formControl]="tuesday_start">
+                                                <ngx-material-timepicker-toggle matSuffix [for]="toggleTimepicker3" style="font-size:xx-small"></ngx-material-timepicker-toggle>
+                                                <ngx-material-timepicker format=24 hoursOnly=true #toggleTimepicker3></ngx-material-timepicker>
+                                            </mat-form-field>
+                                            -
+                                            <mat-form-field appearance="outline" style="width:20%">
+                                                <mat-label>Hasta:</mat-label>
+                                                <input matInput [ngxTimepicker]="toggleTimepicker4" required [formControl]="tuesday_end">
+                                                <ngx-material-timepicker-toggle matSuffix [for]="toggleTimepicker4"></ngx-material-timepicker-toggle>
+                                                <ngx-material-timepicker format=24 hoursOnly=true #toggleTimepicker4></ngx-material-timepicker>
+                                            </mat-form-field>
+                                        </div>
+                                        <div *ngIf="dailyWednesday.classList.contains('dailyselected')" style="width:100%">
+                                            <p style="width:10%;display:inline-block">Miércoles:&nbsp;</p>
+                                            <mat-form-field appearance="outline" style="width:20%;">
+                                                <mat-label>Desde:</mat-label>
+                                                <input matInput [ngxTimepicker]="toggleTimepicker5" required [formControl]="wednesday_start">
+                                                <ngx-material-timepicker-toggle matSuffix [for]="toggleTimepicker5" style="font-size:xx-small"></ngx-material-timepicker-toggle>
+                                                <ngx-material-timepicker format=24 hoursOnly=true #toggleTimepicker5></ngx-material-timepicker>
+                                            </mat-form-field>
+                                            -
+                                            <mat-form-field appearance="outline" style="width:20%">
+                                                <mat-label>Hasta:</mat-label>
+                                                <input matInput [ngxTimepicker]="toggleTimepicker6" required [formControl]="wednesday_end">
+                                                <ngx-material-timepicker-toggle matSuffix [for]="toggleTimepicker6"></ngx-material-timepicker-toggle>
+                                                <ngx-material-timepicker format=24 hoursOnly=true #toggleTimepicker6></ngx-material-timepicker>
+                                            </mat-form-field>
+                                        </div>
+                                        <div *ngIf="dailyThursday.classList.contains('dailyselected')" style="width:100%">
+                                            <p style="width:10%;display:inline-block">Jueves:&nbsp;&nbsp;&nbsp;&nbsp;</p>
+                                            <mat-form-field appearance="outline" style="width:20%;">
+                                                <mat-label>Desde:</mat-label>
+                                                <input matInput [ngxTimepicker]="toggleTimepicker7" required [formControl]="thursday_start">
+                                                <ngx-material-timepicker-toggle matSuffix [for]="toggleTimepicker7" style="font-size:xx-small"></ngx-material-timepicker-toggle>
+                                                <ngx-material-timepicker format=24 hoursOnly=true #toggleTimepicker7></ngx-material-timepicker>
+                                            </mat-form-field>
+                                            -
+                                            <mat-form-field appearance="outline" style="width:20%">
+                                                <mat-label>Hasta:</mat-label>
+                                                <input matInput [ngxTimepicker]="toggleTimepicker8" required [formControl]="thursday_end">
+                                                <ngx-material-timepicker-toggle matSuffix [for]="toggleTimepicker8"></ngx-material-timepicker-toggle>
+                                                <ngx-material-timepicker format=24 hoursOnly=true #toggleTimepicker8></ngx-material-timepicker>
+                                            </mat-form-field>
+                                        </div>
+                                        <div *ngIf="dailyFriday.classList.contains('dailyselected')" style="width:100%">
+                                            <p style="width:10%;display:inline-block">Viernes:&nbsp;&nbsp;&nbsp;</p>
+                                            <mat-form-field appearance="outline" style="width:20%;">
+                                                <mat-label>Desde:</mat-label>
+                                                <input matInput [ngxTimepicker]="toggleTimepicker9" required [formControl]="friday_start">
+                                                <ngx-material-timepicker-toggle matSuffix [for]="toggleTimepicker9" style="font-size:xx-small"></ngx-material-timepicker-toggle>
+                                                <ngx-material-timepicker format=24 hoursOnly=true #toggleTimepicker9></ngx-material-timepicker>
+                                            </mat-form-field>
+                                            -
+                                            <mat-form-field appearance="outline" style="width:20%">
+                                                <mat-label>Hasta:</mat-label>
+                                                <input matInput [ngxTimepicker]="toggleTimepicker10" required [formControl]="friday_end">
+                                                <ngx-material-timepicker-toggle matSuffix [for]="toggleTimepicker10"></ngx-material-timepicker-toggle>
+                                                <ngx-material-timepicker format=24 hoursOnly=true #toggleTimepicker10></ngx-material-timepicker>
+                                            </mat-form-field>
+                                        </div>
+                                        <div *ngIf="dailySaturday.classList.contains('dailyselected')" style="width:100%">
+                                            <p style="width:10%;display:inline-block">Sábado:&nbsp;&nbsp;&nbsp;&nbsp;</p>
+                                            <mat-form-field appearance="outline" style="width:20%;">
+                                                <mat-label>Desde:</mat-label>
+                                                <input matInput [ngxTimepicker]="toggleTimepicker11" required [formControl]="saturday_start">
+                                                <ngx-material-timepicker-toggle matSuffix [for]="toggleTimepicker11" style="font-size:xx-small"></ngx-material-timepicker-toggle>
+                                                <ngx-material-timepicker format=24 hoursOnly=true #toggleTimepicker11></ngx-material-timepicker>
+                                            </mat-form-field>
+                                            -
+                                            <mat-form-field appearance="outline" style="width:20%">
+                                                <mat-label>Hasta:</mat-label>
+                                                <input matInput [ngxTimepicker]="toggleTimepicker12" required [formControl]="saturday_end">
+                                                <ngx-material-timepicker-toggle matSuffix [for]="toggleTimepicker12"></ngx-material-timepicker-toggle>
+                                                <ngx-material-timepicker format=24 hoursOnly=true #toggleTimepicker12></ngx-material-timepicker>
+                                            </mat-form-field>
+                                        </div>
+                                        <div *ngIf="dailySunday.classList.contains('dailyselected')" style="width:100%">
+                                            <p style="width:10%;display:inline-block">Domingo:&nbsp;&nbsp;&nbsp;</p>
+                                            <mat-form-field appearance="outline" style="width:20%;">
+                                                <mat-label>Desde:</mat-label>
+                                                <input matInput [ngxTimepicker]="toggleTimepicker13" required [formControl]="sunday_start">
+                                                <ngx-material-timepicker-toggle matSuffix [for]="toggleTimepicker13" style="font-size:xx-small"></ngx-material-timepicker-toggle>
+                                                <ngx-material-timepicker format=24 hoursOnly=true #toggleTimepicker13></ngx-material-timepicker>
+                                            </mat-form-field>
+                                            -
+                                            <mat-form-field appearance="outline" style="width:20%">
+                                                <mat-label>Hasta:</mat-label>
+                                                <input matInput [ngxTimepicker]="toggleTimepicker14" required [formControl]="sunday_end">
+                                                <ngx-material-timepicker-toggle matSuffix [for]="toggleTimepicker14"></ngx-material-timepicker-toggle>
+                                                <ngx-material-timepicker format=24 hoursOnly=true #toggleTimepicker14></ngx-material-timepicker>
+                                            </mat-form-field>
+                                        </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="margin-left:4%">
+                                <button mat-raised-button color="accent" matStepperPrevious>Atrás</button>
+                                <span fxFlex="8px"></span>
+                                <button mat-raised-button color="primary" (click)="goNext(stepper,'dates')">Siguiente</button>
+                            </div>
+                        </form>
+                    </mat-step>
+                    <mat-step>
+                        <ng-template matStepLabel>Completa</ng-template>
+                        <div class="pb-1 mb-1" style="text-align:center; color:green"> <mat-icon>check</mat-icon>Datos de solicitud completados.</div>
+                        <div class="pb-1 mb-1" >
+                            <div class="half">
+                                <h2><mat-icon>person</mat-icon> Datos personales cliente</h2>
+                                <hr>
+                                <mat-list>
+                                    <mat-list-item><strong style="width:30%">Nombre: </strong><div style="width:70%">{{userInfo.name}}</div></mat-list-item>
+                                    <mat-list-item><strong style="width:30%">Email: </strong><div style="width:70%">{{userInfo.email}}</div></mat-list-item>
+                                    <mat-list-item><strong style="width:30%">Dni: </strong><div style="width:70%">{{userInfo.dni}}</div></mat-list-item>
+                                    <mat-list-item><strong style="width:30%">Teléfono: </strong><div style="width:70%">{{params.phone}}</div></mat-list-item>
+                                </mat-list>
+                            </div>
+                            <div class="half">
+                                <h2><mat-icon>person</mat-icon> Datos personales paciente</h2>
+                                <hr>
+                                <div *ngFor="let user of params.users_details; let i = index">
+                                    {{i+1}}.
+                                    <mat-list>
+                                        <mat-list-item><strong style="width:30%">Nombre: </strong><div style="width:70%">{{user.name}}</div></mat-list-item>
+                                        <mat-list-item><strong style="width:30%">Edad: </strong><div style="width:70%">{{user.age}}</div></mat-list-item>
+                                        <mat-list-item *ngIf="user.type==1 && user.observations!=''"><strong style="width:30%">Observaciones: </strong><div style="width:70%">{{user.observations}}</div></mat-list-item>
+                                        <div *ngIf="user.type==2">
+                                            <mat-list-item *ngIf="user.dependence!=0"><strong style="width:30%">Dependencia: </strong><div style="width:70%">{{user.dependence}}</div></mat-list-item>
+                                            <mat-list-item *ngIf="user.disability!=0"><strong style="width:30%">Discapacidad: </strong><div style="width:70%">{{user.disability}}</div></mat-list-item>
+                                            <mat-list-item *ngIf="user.disability!=0"><strong style="width:30%">Descripción discapacidad: </strong><div style="width:70%">{{user.desc_disability}}</div></mat-list-item>
+                                            <mat-list-item *ngIf="user.pattern!=''"><strong style="width:30%">Pautas: </strong><div style="width:70%">{{user.pattern}}</div></mat-list-item>
+                                        </div>
+                                    </mat-list>
+                                </div>
+                            </div>
+                            <div class="half">
+                                <h2><mat-icon>location_on</mat-icon> Dirección</h2>
+                                <hr>
+                                <mat-list>
+                                    <mat-list-item><strong style="width:30%">Calle: </strong><div style="width:75%">{{params.address_details.street}}</div></mat-list-item>
+                                    <mat-list-item *ngIf="params.address_details.number!=''"><strong style="width:30%">Nº: </strong><div style="width:70%">{{params.address_details.number}}</div></mat-list-item>
+                                    <div *ngIf="params.address_details.type==1">
+                                        <mat-list-item *ngIf="params.address_details.portal!=''"><strong style="width:30%">Portal: </strong><div style="width:70%">{{params.address_details.portal}}</div></mat-list-item>
+                                        <mat-list-item *ngIf="params.address_details.piso!=''"><strong style="width:30%">Piso: </strong><div style="width:70%">{{params.address_details.piso}}</div></mat-list-item>
+                                    </div>
+                                    <div *ngIf="params.address_details.type==2">
+                                        <mat-list-item *ngIf="params.address_details.floor!=''"><strong style="width:30%">Planta: </strong><div style="width:70%">{{params.address_details.floor}}</div></mat-list-item>
+                                        <mat-list-item *ngIf="params.address_details.room!=''"><strong style="width:30%">Habitación: </strong><div style="width:70%">{{params.address_details.room}}</div></mat-list-item>
+                                    </div>
+                                    <mat-list-item *ngIf="params.address_details.aditional!=''"><strong style="width:30%">Adicional: </strong><div style="width:70%">{{params.address_details.aditional}}</div></mat-list-item>
+                                    <mat-list-item><strong style="width:30%">CP: </strong><div style="width:70%">{{params.address_details.cp}}</div></mat-list-item>
+                                    <mat-list-item><strong style="width:30%">Localidad: </strong><div style="width:70%">{{params.address_details.locality}}</div></mat-list-item>
+                                    <mat-list-item><strong style="width:30%">Ciudad: </strong><div style="width:70%">{{params.address_details.city}}</div></mat-list-item>
+                                    <mat-list-item><strong style="width:30%">País: </strong><div style="width:70%">{{params.address_details.country}}</div></mat-list-item>
+                                </mat-list>
+                            </div>
+                            <div class="half">
+                                <h2><mat-icon>calendar_today</mat-icon> Fechas</h2>
+                                <hr>
+                                <mat-list>
+                                    <mat-list-item><strong style="width:30%">Fecha inicio: </strong><div style="width:70%">{{params.start_date}}</div></mat-list-item>
+                                    <mat-list-item><strong style="width:30%">Fecha fin: </strong><div style="width:70%">{{params.end_date}}</div></mat-list-item>
+                                    <mat-list-item><strong style="width:30%">Tipo de servicio: </strong>
+                                        <div style="width:70%" *ngIf="params.occupation_type=='daily'">Servicio 24 horas</div>
+                                        <div style="width:70%" *ngIf="params.occupation_type=='hourly'">Servicio por horas</div>
+                                    </mat-list-item>
+                                    <mat-list-item>
+                                        <strong >Horarios: </strong>
+                                    </mat-list-item>
+                                    <div style="width:100%; padding-left:30%" *ngFor="let day of days">
+                                        <div *ngIf="day=='monday'" style="width:100%">
+                                            <div style="width:30%; display: inline-block">- Lunes</div>
+                                            <div style="width:70%; display: inline-block" *ngIf="params.schedule[day]!=true" class="horario">
+                                                {{params.schedule[day].start}} - {{params.schedule[day].end}}
+                                            </div>
+                                        </div>
+                                        <div *ngIf="day=='tuesday'" style="width:100%">
+                                            <div style="width:30%; display: inline-block">- Martes</div>
+                                            <div style="width:70%; display: inline-block" *ngIf="params.schedule[day]!=true" class="horario">
+                                                {{params.schedule[day].start}} - {{params.schedule[day].end}}
+                                            </div>
+                                        </div>
+                                        <div *ngIf="day=='wednesday'" style="width:100%">
+                                            <div style="width:30%; display: inline-block">- Miércoles</div>
+                                            <div style="width:70%; display: inline-block" *ngIf="params.schedule[day]!=true" class="horario">
+                                                {{params.schedule[day].start}} - {{params.schedule[day].end}}
+                                            </div>
+                                        </div>
+                                        <div *ngIf="day=='thursday'" style="width:100%">
+                                            <div style="width:30%; display: inline-block">- Jueves</div>
+                                            <div style="width:70%; display: inline-block" *ngIf="params.schedule[day]!=true" class="horario">
+                                                {{params.schedule[day].start}} - {{params.schedule[day].end}}
+                                            </div>
+                                        </div>
+                                        <div *ngIf="day=='friday'" style="width:100%">
+                                            <div style="width:30%; display: inline-block">- Viernes</div>
+                                            <div style="width:70%; display: inline-block" *ngIf="params.schedule[day]!=true" class="horario">
+                                                {{params.schedule[day].start}} - {{params.schedule[day].end}}
+                                            </div>
+                                        </div>
+                                        <div *ngIf="day=='saturday'" style="width:100%">
+                                            <div style="width:30%; display: inline-block">- Sábado</div>
+                                            <div style="width:70%; display: inline-block" *ngIf="params.schedule[day]!=true" class="horario">
+                                                {{params.schedule[day].start}} - {{params.schedule[day].end}}
+                                            </div>
+                                        </div>
+                                        <div *ngIf="day=='sunday'" style="width:100%">
+                                            <div style="width:30%; display: inline-block">- Domingo</div>
+                                            <div style="width:70%; display: inline-block" *ngIf="params.schedule[day]!=true" class="horario">
+                                                {{params.schedule[day].start}} - {{params.schedule[day].end}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </mat-list>
+                            </div>
+                        </div>
+                        <div fxLayout="row" style="margin-left:4%">
+                            <button mat-raised-button color="accent" matStepperPrevious>Atrás</button>
+                            <span fxFlex="8px"></span>
+                            <button mat-raised-button color="primary" (click)="createService('hospital')">Solicitar</button>
+                        </div>
+                      </mat-step>
+                </mat-horizontal-stepper>
+                </form>
+            </div>
+            <div id="formNewServiceHome" *ngIf="type=='domicilio'" class="newService">
+                <h2> Nueva asistencia para adulto en domicilio </h2>
+                <form>
+                    <mat-horizontal-stepper [linear]="true" #stepper>
+                    <mat-step [stepControl]="personalInfo">
+                        <form [formGroup]="personalInfo" style="min-height:350px">
+                            <ng-template matStepLabel>Datos personales cliente</ng-template>
+                            <mat-form-field class="pt-1 pb-1 inputnewService">
+                                <mat-label> Nombre:</mat-label>
+                                <input matInput placeholder="Nombre" formControlName="name" required [disabled]="personalInfo.getRawValue().name!=''">
+                            </mat-form-field>
+                            <mat-form-field class="pt-1 pb-1 inputnewService">
+                                <mat-label> DNI:</mat-label>
+                                <input matInput placeholder="DNI" formControlName="dni" required >
+                            </mat-form-field>
+                            <mat-form-field class="pt-1 pb-1 inputnewService">
+                                <mat-label> Email:</mat-label>
+                                <input matInput placeholder="Email" formControlName="email" required >
+                            </mat-form-field>
+
+                            <mat-form-field class="pt-1 pb-1 inputnewService">
+                                <mat-label> Teléfono:</mat-label>
+                                <mat-select formControlName="phone" required>
+                                    <mat-option *ngFor="let phone of phonesList" [value]="phone.number">
+                                      {{phone.number}}
+                                    </mat-option>
+                                    <hr style="margin-bottom:0">
+                                    <mat-option (click)="newPhone()" style="background-color:lightgrey">-Añadir nuevo teléfono-</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <div style="margin-left:4%">
+                                <button mat-raised-button color="primary" matStepperNext>Siguiente</button>
+                            </div>
+                        </form>
+                    </mat-step>
+                    <mat-step [stepControl]="patientInfo">
+                        <form [formGroup]="patientInfo" style="min-height:350px">
+                            <ng-template matStepLabel>Datos personales paciente</ng-template>
+                            <table class="table table-striped table-bordered" style="width:100%">
+                                <tbody>
+                                    <tr>
+                                        <td style="width:90%">
+                                            <mat-form-field class="pt-1 pb-1" style="margin-left:4%; margin-right: 4%; width:92%">
+                                                <mat-select formControlName="user" required>
+                                                    <div style="max-height:200px;overflow: scroll">
+                                                        <mat-option *ngFor="let person of newAdults" [value]="person.id">
+                                                          {{person.name}}, {{person.age}}
+                                                        </mat-option>
+                                                    </div>
+                                                    <hr style="margin-bottom: 0">
+                                                    <mat-option (click)="newPerson()" style="background-color:lightgrey; position:sticky">-Añadir nueva persona-</mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </td>
+                                        <td style="width:10%">
+                                            <button class="btn btn-default" type="button" (click)="addFieldValue('adultos')" mat-raised-button style="background-color: green; color: white;"><mat-icon>done</mat-icon>Asistir</button>
+                                        </td>
+                                    </tr>
+                                    <tr *ngFor="let field of fieldArray; let i = index">
+                                        <td style="width:90%">
+                                           <mat-form-field class="pt-1 pb-1" style="margin-left:4%; margin-right: 4%; width:92%">
+                                                <mat-select formControlName="user" required disabled>
+                                                    <mat-option *ngFor="let person of adults" [value]="person.id">
+                                                      {{person.name}}, {{person.age}}
+                                                    </mat-option>
+                                                </mat-select>
+                                          </mat-form-field>
+                                        </td>
+                                        <td style="width:10%">
+                                            <button class="btn btn-default"  type="button" (click)="deleteFieldValue(i)" mat-raised-button color="warn"><mat-icon>delete</mat-icon>Eliminar</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div style="margin-left:4%">
+                                <button mat-raised-button color="accent" matStepperPrevious>Atrás</button>
+                                <span fxFlex="8px"></span>
+                                <button mat-raised-button color="primary" (click)="goNext(stepper,'user')">Siguiente</button>
+                            </div>
+
+
+                        </form>
+                    </mat-step>
+                    <mat-step [stepControl]="addressInfo">
+                        <form [formGroup]="addressInfo" style="min-height:350px">
+                            <ng-template matStepLabel>Dirección</ng-template>
+                            <mat-form-field class="pt-1 pb-1" style="margin-left:4%; margin-right:4%; width:92%;">
+                                <mat-label>Dirección:</mat-label>
+                                <mat-select formControlName="address" required>
+                                    <mat-option *ngFor="let address of homeAddresses" [value]="address.id">
+                                      {{address.street}} {{address.number}}, {{address.city}}
+                                    </mat-option>
+                                    <hr style="margin-bottom: 0">
+                                    <mat-option (click)="newAddress()" style="background-color:lightgrey">-Añadir nueva dirección-</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <div fxLayout="row" style="margin-left:4%">
+                                <button mat-raised-button color="accent" matStepperPrevious>Atrás</button>
+                                <span fxFlex="8px"></span>
+                                <button mat-raised-button color="primary" matStepperNext>Siguiente</button>
+                            </div>
+                        </form>
+                    </mat-step>
+                    <mat-step [stepControl]="datesInfo">
+                        <form [formGroup]="datesInfo" style="min-height:350px">
+                            <ng-template matStepLabel>Fechas</ng-template>
+                            <mat-form-field class="pt-1 pb-1 inputnewService">
+                                <mat-label>Fecha comienzo:</mat-label>
+                                <input matInput [matDatepicker]="picker" formControlName="start_date" [min]="startminDate" (dateChange)="changeEndDate()" required>
+                                <mat-datepicker-toggle matSuffix [for]="picker" ></mat-datepicker-toggle>
+                                <mat-datepicker #picker></mat-datepicker>
+                            </mat-form-field>
+                            <div class="inputnewService" style="display:inline-block">
+                                <mat-form-field class="pt-1 pb-1 " style="width:70%">
+                                    <mat-label>Fecha final:</mat-label>
+                                    <input matInput [matDatepicker]="picker2" formControlName="end_date" [min]="endminDate" required [disabled]="this.openfinaldate.value">
+                                    <mat-datepicker-toggle matSuffix [for]="picker2" [disabled]="this.openfinaldate.value"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker2 [disabled]="this.openfinaldate.value"></mat-datepicker>
+                                </mat-form-field>
+                                <mat-checkbox (change)="disableFinalDate($event.checked)" style="margin-left:2%; width:28%;display:inline-block">Fecha final abierta</mat-checkbox>
+                            </div>
+                            <div class="inputnewService" style="display:inline-block;margin-bottom:3%;width:96%">
+                                <mat-checkbox [formControl]="daily" (click)="hourly.setValue(false)">Servicio 24h</mat-checkbox>
+                                <div style="margin-left:10%; width:100%;" *ngIf="daily.value">
+                                    <div style="padding:2% 2%;border: 1px solid grey;width: 55%;margin-bottom: 2%;border-radius: 10px; text-align:center;">
+                                        <div class="roundcheck" (click)="checkDaily('Monday')" #dailyMonday>L</div>
+                                        <div class="roundcheck" (click)="checkDaily('Tuesday')" #dailyTuesday>M</div>
+                                        <div class="roundcheck" (click)="checkDaily('Wednesday')" #dailyWednesday>X</div>
+                                        <div class="roundcheck" (click)="checkDaily('Thursday')" #dailyThursday>J</div>
+                                        <div class="roundcheck" (click)="checkDaily('Friday')" #dailyFriday>V</div>
+                                        <div class="roundcheck" (click)="checkDaily('Saturday')" #dailySaturday>S</div>
+                                        <div class="roundcheck" (click)="checkDaily('Sunday')" #dailySunday>D</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="inputnewService" style="display:inline-block; margin-bottom:3%;width:96%;">
+                                <mat-checkbox [formControl]="hourly" (click)="daily.setValue(false);">Servicio por horas</mat-checkbox>
+                                <div style="margin-left:10%; width:100%;" *ngIf="hourly.value">
+                                    <div style="padding:2% 2%;border: 1px solid grey;width: 55%;margin-bottom: 2%;border-radius: 10px;text-align:center;">
+                                        <div class="roundcheck" (click)="checkDaily('Monday')" #dailyMonday>L</div>
+                                        <div class="roundcheck" (click)="checkDaily('Tuesday')" #dailyTuesday>M</div>
+                                        <div class="roundcheck" (click)="checkDaily('Wednesday')" #dailyWednesday>X</div>
+                                        <div class="roundcheck" (click)="checkDaily('Thursday')" #dailyThursday>J</div>
+                                        <div class="roundcheck" (click)="checkDaily('Friday')" #dailyFriday>V</div>
+                                        <div class="roundcheck" (click)="checkDaily('Saturday')" #dailySaturday>S</div>
+                                        <div class="roundcheck" (click)="checkDaily('Sunday')" #dailySunday>D</div>
+                                    </div>
+
+                                    <div style="width:100%;" >
+                                        <form>
+                                        <div *ngIf="dailyMonday.classList.contains('dailyselected')" style="width:100%">
+                                            <p style="width:10%;display:inline-block">Lunes:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+                                            <mat-form-field appearance="outline" style="width:20%;">
+                                                <mat-label>Desde:</mat-label>
+                                                <input matInput [ngxTimepicker]="toggleTimepicker" required [formControl]="monday_start">
+                                                <ngx-material-timepicker-toggle matSuffix [for]="toggleTimepicker" style="font-size:xx-small"></ngx-material-timepicker-toggle>
+                                                <ngx-material-timepicker format=24 hoursOnly=true #toggleTimepicker></ngx-material-timepicker>
+                                            </mat-form-field>
+                                            -
+                                            <mat-form-field appearance="outline" style="width:20%">
+                                                <mat-label>Hasta:</mat-label>
+                                                <input matInput [ngxTimepicker]="toggleTimepicker2"required [formControl]="monday_end">
+                                                <ngx-material-timepicker-toggle matSuffix [for]="toggleTimepicker2"></ngx-material-timepicker-toggle>
+                                                <ngx-material-timepicker format=24 hoursOnly=true #toggleTimepicker2></ngx-material-timepicker>
+                                            </mat-form-field>
+                                        </div>
+                                        <div *ngIf="dailyTuesday.classList.contains('dailyselected')" style="width:100%">
+                                            <p style="width:10%;display:inline-block">Martes:&nbsp;&nbsp;&nbsp;&nbsp;</p>
+                                            <mat-form-field appearance="outline" style="width:20%;">
+                                                <mat-label>Desde:</mat-label>
+                                                <input matInput [ngxTimepicker]="toggleTimepicker3" required [formControl]="tuesday_start">
+                                                <ngx-material-timepicker-toggle matSuffix [for]="toggleTimepicker3" style="font-size:xx-small"></ngx-material-timepicker-toggle>
+                                                <ngx-material-timepicker format=24 hoursOnly=true #toggleTimepicker3></ngx-material-timepicker>
+                                            </mat-form-field>
+                                            -
+                                            <mat-form-field appearance="outline" style="width:20%">
+                                                <mat-label>Hasta:</mat-label>
+                                                <input matInput [ngxTimepicker]="toggleTimepicker4" required [formControl]="tuesday_end">
+                                                <ngx-material-timepicker-toggle matSuffix [for]="toggleTimepicker4"></ngx-material-timepicker-toggle>
+                                                <ngx-material-timepicker format=24 hoursOnly=true #toggleTimepicker4></ngx-material-timepicker>
+                                            </mat-form-field>
+                                        </div>
+                                        <div *ngIf="dailyWednesday.classList.contains('dailyselected')" style="width:100%">
+                                            <p style="width:10%;display:inline-block">Miércoles:&nbsp;</p>
+                                            <mat-form-field appearance="outline" style="width:20%;">
+                                                <mat-label>Desde:</mat-label>
+                                                <input matInput [ngxTimepicker]="toggleTimepicker5" required [formControl]="wednesday_start">
+                                                <ngx-material-timepicker-toggle matSuffix [for]="toggleTimepicker5" style="font-size:xx-small"></ngx-material-timepicker-toggle>
+                                                <ngx-material-timepicker format=24 hoursOnly=true #toggleTimepicker5></ngx-material-timepicker>
+                                            </mat-form-field>
+                                            -
+                                            <mat-form-field appearance="outline" style="width:20%">
+                                                <mat-label>Hasta:</mat-label>
+                                                <input matInput [ngxTimepicker]="toggleTimepicker6" required [formControl]="wednesday_end">
+                                                <ngx-material-timepicker-toggle matSuffix [for]="toggleTimepicker6"></ngx-material-timepicker-toggle>
+                                                <ngx-material-timepicker format=24 hoursOnly=true #toggleTimepicker6></ngx-material-timepicker>
+                                            </mat-form-field>
+                                        </div>
+                                        <div *ngIf="dailyThursday.classList.contains('dailyselected')" style="width:100%">
+                                            <p style="width:10%;display:inline-block">Jueves:&nbsp;&nbsp;&nbsp;&nbsp;</p>
+                                            <mat-form-field appearance="outline" style="width:20%;">
+                                                <mat-label>Desde:</mat-label>
+                                                <input matInput [ngxTimepicker]="toggleTimepicker7" required [formControl]="thursday_start">
+                                                <ngx-material-timepicker-toggle matSuffix [for]="toggleTimepicker7" style="font-size:xx-small"></ngx-material-timepicker-toggle>
+                                                <ngx-material-timepicker format=24 hoursOnly=true #toggleTimepicker7></ngx-material-timepicker>
+                                            </mat-form-field>
+                                            -
+                                            <mat-form-field appearance="outline" style="width:20%">
+                                                <mat-label>Hasta:</mat-label>
+                                                <input matInput [ngxTimepicker]="toggleTimepicker8" required [formControl]="thursday_end">
+                                                <ngx-material-timepicker-toggle matSuffix [for]="toggleTimepicker8"></ngx-material-timepicker-toggle>
+                                                <ngx-material-timepicker format=24 hoursOnly=true #toggleTimepicker8></ngx-material-timepicker>
+                                            </mat-form-field>
+                                        </div>
+                                        <div *ngIf="dailyFriday.classList.contains('dailyselected')" style="width:100%">
+                                            <p style="width:10%;display:inline-block">Viernes:&nbsp;&nbsp;&nbsp;</p>
+                                            <mat-form-field appearance="outline" style="width:20%;">
+                                                <mat-label>Desde:</mat-label>
+                                                <input matInput [ngxTimepicker]="toggleTimepicker9" required [formControl]="friday_start">
+                                                <ngx-material-timepicker-toggle matSuffix [for]="toggleTimepicker9" style="font-size:xx-small"></ngx-material-timepicker-toggle>
+                                                <ngx-material-timepicker format=24 hoursOnly=true #toggleTimepicker9></ngx-material-timepicker>
+                                            </mat-form-field>
+                                            -
+                                            <mat-form-field appearance="outline" style="width:20%">
+                                                <mat-label>Hasta:</mat-label>
+                                                <input matInput [ngxTimepicker]="toggleTimepicker10" required [formControl]="friday_end">
+                                                <ngx-material-timepicker-toggle matSuffix [for]="toggleTimepicker10"></ngx-material-timepicker-toggle>
+                                                <ngx-material-timepicker format=24 hoursOnly=true #toggleTimepicker10></ngx-material-timepicker>
+                                            </mat-form-field>
+                                        </div>
+                                        <div *ngIf="dailySaturday.classList.contains('dailyselected')" style="width:100%">
+                                            <p style="width:10%;display:inline-block">Sábado:&nbsp;&nbsp;&nbsp;&nbsp;</p>
+                                            <mat-form-field appearance="outline" style="width:20%;">
+                                                <mat-label>Desde:</mat-label>
+                                                <input matInput [ngxTimepicker]="toggleTimepicker11" required [formControl]="saturday_start">
+                                                <ngx-material-timepicker-toggle matSuffix [for]="toggleTimepicker11" style="font-size:xx-small"></ngx-material-timepicker-toggle>
+                                                <ngx-material-timepicker format=24 hoursOnly=true #toggleTimepicker11></ngx-material-timepicker>
+                                            </mat-form-field>
+                                            -
+                                            <mat-form-field appearance="outline" style="width:20%">
+                                                <mat-label>Hasta:</mat-label>
+                                                <input matInput [ngxTimepicker]="toggleTimepicker12" required [formControl]="saturday_end">
+                                                <ngx-material-timepicker-toggle matSuffix [for]="toggleTimepicker12"></ngx-material-timepicker-toggle>
+                                                <ngx-material-timepicker format=24 hoursOnly=true #toggleTimepicker12></ngx-material-timepicker>
+                                            </mat-form-field>
+                                        </div>
+                                        <div *ngIf="dailySunday.classList.contains('dailyselected')" style="width:100%">
+                                            <p style="width:10%;display:inline-block">Domingo:&nbsp;&nbsp;&nbsp;</p>
+                                            <mat-form-field appearance="outline" style="width:20%;">
+                                                <mat-label>Desde:</mat-label>
+                                                <input matInput [ngxTimepicker]="toggleTimepicker13" required [formControl]="sunday_start">
+                                                <ngx-material-timepicker-toggle matSuffix [for]="toggleTimepicker13" style="font-size:xx-small"></ngx-material-timepicker-toggle>
+                                                <ngx-material-timepicker format=24 hoursOnly=true #toggleTimepicker13></ngx-material-timepicker>
+                                            </mat-form-field>
+                                            -
+                                            <mat-form-field appearance="outline" style="width:20%">
+                                                <mat-label>Hasta:</mat-label>
+                                                <input matInput [ngxTimepicker]="toggleTimepicker14" required [formControl]="sunday_end">
+                                                <ngx-material-timepicker-toggle matSuffix [for]="toggleTimepicker14"></ngx-material-timepicker-toggle>
+                                                <ngx-material-timepicker format=24 hoursOnly=true #toggleTimepicker14></ngx-material-timepicker>
+                                            </mat-form-field>
+                                        </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="margin-left:4%">
+                                <button mat-raised-button color="accent" matStepperPrevious>Atrás</button>
+                                <span fxFlex="8px"></span>
+                                <button mat-raised-button color="primary" (click)="goNext(stepper,'dates')">Siguiente</button>
+                            </div>
+                        </form>
+                    </mat-step>
+                    <mat-step>
+                        <ng-template matStepLabel>Completa</ng-template>
+                        <div class="pb-1 mb-1" style="text-align:center; color:green"> <mat-icon>check</mat-icon>Datos de solicitud completados.</div>
+                        <div class="pb-1 mb-1" >
+                            <div class="half">
+                                <h2><mat-icon>person</mat-icon> Datos personales cliente</h2>
+                                <hr>
+                                <mat-list>
+                                    <mat-list-item><strong style="width:30%">Nombre: </strong><div style="width:70%">{{userInfo.name}}</div></mat-list-item>
+                                    <mat-list-item><strong style="width:30%">Email: </strong><div style="width:70%">{{userInfo.email}}</div></mat-list-item>
+                                    <mat-list-item><strong style="width:30%">Dni: </strong><div style="width:70%">{{userInfo.dni}}</div></mat-list-item>
+                                    <mat-list-item><strong style="width:30%">Teléfono: </strong><div style="width:70%">{{params.phone}}</div></mat-list-item>
+                                </mat-list>
+                            </div>
+                            <div class="half">
+                                <h2><mat-icon>person</mat-icon> Datos personales paciente</h2>
+                                <hr>
+                                <div *ngFor="let user of params.users_details; let i = index">
+                                    {{i+1}}.
+                                    <mat-list>
+                                        <mat-list-item><strong style="width:30%">Nombre: </strong><div style="width:70%">{{user.name}}</div></mat-list-item>
+                                        <mat-list-item><strong style="width:30%">Edad: </strong><div style="width:70%">{{user.age}}</div></mat-list-item>
+                                        <mat-list-item *ngIf="user.type==1 && user.observations!=''"><strong style="width:30%">Observaciones: </strong><div style="width:70%">{{user.observations}}</div></mat-list-item>
+                                        <div *ngIf="user.type==2">
+                                            <mat-list-item *ngIf="user.dependence!=0"><strong style="width:30%">Dependencia: </strong><div style="width:70%">{{user.dependence}}</div></mat-list-item>
+                                            <mat-list-item *ngIf="user.disability!=0"><strong style="width:30%">Discapacidad: </strong><div style="width:70%">{{user.disability}}</div></mat-list-item>
+                                            <mat-list-item *ngIf="user.disability!=0"><strong style="width:30%">Descripción discapacidad: </strong><div style="width:70%">{{user.desc_disability}}</div></mat-list-item>
+                                            <mat-list-item *ngIf="user.pattern!=''"><strong style="width:30%">Pautas: </strong><div style="width:70%">{{user.pattern}}</div></mat-list-item>
+                                        </div>
+                                    </mat-list>
+                                </div>
+                            </div>
+                            <div class="half">
+                                <h2><mat-icon>location_on</mat-icon> Dirección</h2>
+                                <hr>
+                                <mat-list>
+                                    <mat-list-item><strong style="width:30%">Calle: </strong><div style="width:75%">{{params.address_details.street}}</div></mat-list-item>
+                                    <mat-list-item *ngIf="params.address_details.number!=''"><strong style="width:30%">Nº: </strong><div style="width:70%">{{params.address_details.number}}</div></mat-list-item>
+                                    <div *ngIf="params.address_details.type==1">
+                                        <mat-list-item *ngIf="params.address_details.portal!=''"><strong style="width:30%">Portal: </strong><div style="width:70%">{{params.address_details.portal}}</div></mat-list-item>
+                                        <mat-list-item *ngIf="params.address_details.piso!=''"><strong style="width:30%">Piso: </strong><div style="width:70%">{{params.address_details.piso}}</div></mat-list-item>
+                                    </div>
+                                    <div *ngIf="params.address_details.type==2">
+                                        <mat-list-item *ngIf="params.address_details.floor!=''"><strong style="width:30%">Planta: </strong><div style="width:70%">{{params.address_details.floor}}</div></mat-list-item>
+                                        <mat-list-item *ngIf="params.address_details.room!=''"><strong style="width:30%">Habitación: </strong><div style="width:70%">{{params.address_details.room}}</div></mat-list-item>
+                                    </div>
+                                    <mat-list-item *ngIf="params.address_details.aditional!=''"><strong style="width:30%">Adicional: </strong><div style="width:70%">{{params.address_details.aditional}}</div></mat-list-item>
+                                    <mat-list-item><strong style="width:30%">CP: </strong><div style="width:70%">{{params.address_details.cp}}</div></mat-list-item>
+                                    <mat-list-item><strong style="width:30%">Localidad: </strong><div style="width:70%">{{params.address_details.locality}}</div></mat-list-item>
+                                    <mat-list-item><strong style="width:30%">Ciudad: </strong><div style="width:70%">{{params.address_details.city}}</div></mat-list-item>
+                                    <mat-list-item><strong style="width:30%">País: </strong><div style="width:70%">{{params.address_details.country}}</div></mat-list-item>
+                                </mat-list>
+                            </div>
+                            <div class="half">
+                                <h2><mat-icon>calendar_today</mat-icon> Fechas</h2>
+                                <hr>
+                                <mat-list>
+                                    <mat-list-item><strong style="width:30%">Fecha inicio: </strong><div style="width:70%">{{params.start_date}}</div></mat-list-item>
+                                    <mat-list-item><strong style="width:30%">Fecha fin: </strong><div style="width:70%">{{params.end_date}}</div></mat-list-item>
+                                    <mat-list-item><strong style="width:30%">Tipo de servicio: </strong>
+                                        <div style="width:70%" *ngIf="params.occupation_type=='daily'">Servicio 24 horas</div>
+                                        <div style="width:70%" *ngIf="params.occupation_type=='hourly'">Servicio por horas</div>
+                                    </mat-list-item>
+                                    <mat-list-item>
+                                        <strong >Horarios: </strong>
+                                    </mat-list-item>
+                                    <div style="width:100%; padding-left:30%" *ngFor="let day of days">
+                                        <div *ngIf="day=='monday'" style="width:100%">
+                                            <div style="width:30%; display: inline-block">- Lunes</div>
+                                            <div style="width:70%; display: inline-block" *ngIf="params.schedule[day]!=true" class="horario">
+                                                {{params.schedule[day].start}} - {{params.schedule[day].end}}
+                                            </div>
+                                        </div>
+                                        <div *ngIf="day=='tuesday'" style="width:100%">
+                                            <div style="width:30%; display: inline-block">- Martes</div>
+                                            <div style="width:70%; display: inline-block" *ngIf="params.schedule[day]!=true" class="horario">
+                                                {{params.schedule[day].start}} - {{params.schedule[day].end}}
+                                            </div>
+                                        </div>
+                                        <div *ngIf="day=='wednesday'" style="width:100%">
+                                            <div style="width:30%; display: inline-block">- Miércoles</div>
+                                            <div style="width:70%; display: inline-block" *ngIf="params.schedule[day]!=true" class="horario">
+                                                {{params.schedule[day].start}} - {{params.schedule[day].end}}
+                                            </div>
+                                        </div>
+                                        <div *ngIf="day=='thursday'" style="width:100%">
+                                            <div style="width:30%; display: inline-block">- Jueves</div>
+                                            <div style="width:70%; display: inline-block" *ngIf="params.schedule[day]!=true" class="horario">
+                                                {{params.schedule[day].start}} - {{params.schedule[day].end}}
+                                            </div>
+                                        </div>
+                                        <div *ngIf="day=='friday'" style="width:100%">
+                                            <div style="width:30%; display: inline-block">- Viernes</div>
+                                            <div style="width:70%; display: inline-block" *ngIf="params.schedule[day]!=true" class="horario">
+                                                {{params.schedule[day].start}} - {{params.schedule[day].end}}
+                                            </div>
+                                        </div>
+                                        <div *ngIf="day=='saturday'" style="width:100%">
+                                            <div style="width:30%; display: inline-block">- Sábado</div>
+                                            <div style="width:70%; display: inline-block" *ngIf="params.schedule[day]!=true" class="horario">
+                                                {{params.schedule[day].start}} - {{params.schedule[day].end}}
+                                            </div>
+                                        </div>
+                                        <div *ngIf="day=='sunday'" style="width:100%">
+                                            <div style="width:30%; display: inline-block">- Domingo</div>
+                                            <div style="width:70%; display: inline-block" *ngIf="params.schedule[day]!=true" class="horario">
+                                                {{params.schedule[day].start}} - {{params.schedule[day].end}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </mat-list>
+                            </div>
+                        </div>
+                        <div fxLayout="row" style="margin-left:4%">
+                            <button mat-raised-button color="accent" matStepperPrevious>Atrás</button>
+                            <span fxFlex="8px"></span>
+                            <button mat-raised-button color="primary" (click)="createService('domicilio')">Solicitar</button>
+                        </div>
+                      </mat-step>
+                </mat-horizontal-stepper>
+                </form>
+            </div>
+            <div id="formNewServiceKids" *ngIf="type=='infantil'" class="newService">
+                <h2> Nueva asistencia infantil en domicilio </h2>
+                <form>
+                    <mat-horizontal-stepper [linear]="true" #stepper>
+                    <mat-step [stepControl]="personalInfo">
+                        <form [formGroup]="personalInfo" style="min-height:350px">
+                            <ng-template matStepLabel>Datos personales cliente</ng-template>
+                            <mat-form-field class="pt-1 pb-1 inputnewService">
+                                <mat-label> Nombre:</mat-label>
+                                <input matInput placeholder="Nombre" formControlName="name" required [disabled]="personalInfo.getRawValue().name!=''">
+                            </mat-form-field>
+                            <mat-form-field class="pt-1 pb-1 inputnewService">
+                                <mat-label> DNI:</mat-label>
+                                <input matInput placeholder="DNI" formControlName="dni" required >
+                            </mat-form-field>
+                            <mat-form-field class="pt-1 pb-1 inputnewService">
+                                <mat-label> Email:</mat-label>
+                                <input matInput placeholder="Email" formControlName="email" required >
+                            </mat-form-field>
+
+                            <mat-form-field class="pt-1 pb-1 inputnewService">
+                                <mat-label> Teléfono:</mat-label>
+                                <mat-select formControlName="phone" required>
+                                    <mat-option *ngFor="let phone of phonesList" [value]="phone.number">
+                                      {{phone.number}}
+                                    </mat-option>
+                                    <hr style="margin-bottom:0">
+                                    <mat-option (click)="newPhone()" style="background-color:lightgrey">-Añadir nuevo teléfono-</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <div style="margin-left:4%">
+                                <button mat-raised-button color="primary" matStepperNext>Siguiente</button>
+                            </div>
+                        </form>
+                    </mat-step>
+                    <mat-step [stepControl]="patientInfo">
+                        <form [formGroup]="patientInfo" style="min-height:350px">
+                            <ng-template matStepLabel>Datos personales paciente</ng-template>
+                            <table class="table table-striped table-bordered" style="width:100%">
+                                <tbody>
+                                    <tr>
+                                        <td style="width:90%">
+                                            <mat-form-field class="pt-1 pb-1" style="margin-left:4%; margin-right: 4%; width:92%">
+                                                <mat-select formControlName="user" required>
+                                                    <div style="max-height:200px;overflow: scroll">
+                                                        <mat-option *ngFor="let person of newKids" [value]="person.id">
+                                                          {{person.name}}, {{person.age}}
+                                                        </mat-option>
+                                                    </div>
+                                                    <hr style="margin-bottom: 0">
+                                                    <mat-option (click)="newPerson()" style="background-color:lightgrey; position:sticky">-Añadir nueva persona-</mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </td>
+                                        <td style="width:10%">
+                                            <button class="btn btn-default" type="button" (click)="addFieldValue('infantil')" mat-raised-button style="background-color: green; color: white;"><mat-icon>done</mat-icon>Asistir</button>
+                                        </td>
+                                    </tr>
+                                    <tr *ngFor="let field of fieldArray; let i = index">
+                                        <td style="width:90%">
+                                           <mat-form-field class="pt-1 pb-1" style="margin-left:4%; margin-right: 4%; width:92%">
+                                                <mat-select formControlName="user" required disabled>
+                                                    <div style="max-height:100px;overflow: scroll">
+                                                        <mat-option *ngFor="let person of kids" [value]="person.id">
+                                                          {{person.name}}, {{person.age}}
+                                                        </mat-option>
+                                                    </div>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </td>
+                                        <td style="width:10%">
+                                            <button class="btn btn-default"  type="button" (click)="deleteFieldValue(i)" mat-raised-button color="warn"><mat-icon>delete</mat-icon>Eliminar</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div style="margin-left:4%">
+                                <button mat-raised-button color="accent" matStepperPrevious>Atrás</button>
+                                <span fxFlex="8px"></span>
+                                <button mat-raised-button color="primary" (click)="goNext(stepper,'user')">Siguiente</button>
+                            </div>
+
+
+                        </form>
+                    </mat-step>
+                    <mat-step [stepControl]="addressInfo">
+                        <form [formGroup]="addressInfo" style="min-height:350px">
+                            <ng-template matStepLabel>Dirección</ng-template>
+                            <mat-form-field class="pt-1 pb-1" style="margin-left:4%; margin-right:4%; width:92%;">
+                                <mat-label>Dirección:</mat-label>
+                                <mat-select formControlName="address" required>
+                                    <mat-option *ngFor="let address of homeAddresses" [value]="address.id">
+                                      {{address.street}} {{address.number}}, {{address.city}}
+                                    </mat-option>
+                                    <hr style="margin-bottom: 0">
+                                    <mat-option (click)="newAddress()" style="background-color:lightgrey">-Añadir nueva dirección-</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <div fxLayout="row" style="margin-left:4%">
+                                <button mat-raised-button color="accent" matStepperPrevious>Atrás</button>
+                                <span fxFlex="8px"></span>
+                                <button mat-raised-button color="primary" matStepperNext>Siguiente</button>
+                            </div>
+                        </form>
+                    </mat-step>
+                    <mat-step [stepControl]="datesInfo">
+                        <form [formGroup]="datesInfo" style="min-height:350px">
+                            <ng-template matStepLabel>Fechas</ng-template>
+                            <mat-form-field class="pt-1 pb-1 inputnewService">
+                                <mat-label>Fecha comienzo:</mat-label>
+                                <input matInput [matDatepicker]="picker" formControlName="start_date" [min]="startminDate" (dateChange)="changeEndDate()" required>
+                                <mat-datepicker-toggle matSuffix [for]="picker" ></mat-datepicker-toggle>
+                                <mat-datepicker #picker></mat-datepicker>
+                            </mat-form-field>
+                            <div class="inputnewService" style="display:inline-block">
+                                <mat-form-field class="pt-1 pb-1 " style="width:70%">
+                                    <mat-label>Fecha final:</mat-label>
+                                    <input matInput [matDatepicker]="picker2" formControlName="end_date" [min]="endminDate" required [disabled]="this.openfinaldate.value">
+                                    <mat-datepicker-toggle matSuffix [for]="picker2" [disabled]="this.openfinaldate.value"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker2 [disabled]="this.openfinaldate.value"></mat-datepicker>
+                                </mat-form-field>
+                                <mat-checkbox (change)="disableFinalDate($event.checked)" style="margin-left:2%; width:28%;display:inline-block">Fecha final abierta</mat-checkbox>
+                            </div>
+                            <p class="inputnewService">Horario:</p>
+                            <div class="inputnewService" style="display:inline-block;margin-bottom:3%;width:96%;margin-left:5%">
+                                <mat-checkbox [formControl]="daily" (click)="hourly.setValue(false)">Servicio 24h</mat-checkbox>
+                                <div style="margin-left:10%; width:100%; text-align:center;" *ngIf="daily.value">
+                                    <div style="padding:2% 2%;border: 1px solid grey;width: 55%;margin-bottom: 2%;border-radius: 10px;">
+                                        <div class="roundcheck" (click)="checkDaily('Monday')" #dailyMonday>L</div>
+                                        <div class="roundcheck" (click)="checkDaily('Tuesday')" #dailyTuesday>M</div>
+                                        <div class="roundcheck" (click)="checkDaily('Wednesday')" #dailyWednesday>X</div>
+                                        <div class="roundcheck" (click)="checkDaily('Thursday')" #dailyThursday>J</div>
+                                        <div class="roundcheck" (click)="checkDaily('Friday')" #dailyFriday>V</div>
+                                        <div class="roundcheck" (click)="checkDaily('Saturday')" #dailySaturday>S</div>
+                                        <div class="roundcheck" (click)="checkDaily('Sunday')" #dailySunday>D</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="inputnewService" style="display:inline-block; margin-bottom:3%;width:96%;margin-left:5%">
+                                <mat-checkbox [formControl]="hourly" (click)="daily.setValue(false);">Servicio por horas</mat-checkbox>
+                                <div style="margin-left:10%; width:100%;" *ngIf="hourly.value">
+                                    <div style="padding:2% 2%;border: 1px solid grey;width: 55%;margin-bottom: 2%;border-radius: 10px;text-align:center;">
+                                        <div class="roundcheck" (click)="checkDaily('Monday')" #dailyMonday>L</div>
+                                        <div class="roundcheck" (click)="checkDaily('Tuesday')" #dailyTuesday>M</div>
+                                        <div class="roundcheck" (click)="checkDaily('Wednesday')" #dailyWednesday>X</div>
+                                        <div class="roundcheck" (click)="checkDaily('Thursday')" #dailyThursday>J</div>
+                                        <div class="roundcheck" (click)="checkDaily('Friday')" #dailyFriday>V</div>
+                                        <div class="roundcheck" (click)="checkDaily('Saturday')" #dailySaturday>S</div>
+                                        <div class="roundcheck" (click)="checkDaily('Sunday')" #dailySunday>D</div>
+                                    </div>
+
+                                    <div style="width:100%;" >
+                                        <form>
+                                        <div *ngIf="dailyMonday.classList.contains('dailyselected')" style="width:100%">
+                                            <p style="width:10%;display:inline-block">Lunes:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+                                            <mat-form-field appearance="outline" style="width:20%;">
+                                                <mat-label>Desde:</mat-label>
+                                                <input matInput [ngxTimepicker]="toggleTimepicker" required [formControl]="monday_start">
+                                                <ngx-material-timepicker-toggle matSuffix [for]="toggleTimepicker" style="font-size:xx-small"></ngx-material-timepicker-toggle>
+                                                <ngx-material-timepicker format=24 hoursOnly=true #toggleTimepicker></ngx-material-timepicker>
+                                            </mat-form-field>
+                                            -
+                                            <mat-form-field appearance="outline" style="width:20%">
+                                                <mat-label>Hasta:</mat-label>
+                                                <input matInput [ngxTimepicker]="toggleTimepicker2"required [formControl]="monday_end">
+                                                <ngx-material-timepicker-toggle matSuffix [for]="toggleTimepicker2"></ngx-material-timepicker-toggle>
+                                                <ngx-material-timepicker format=24 hoursOnly=true #toggleTimepicker2></ngx-material-timepicker>
+                                            </mat-form-field>
+                                        </div>
+                                        <div *ngIf="dailyTuesday.classList.contains('dailyselected')" style="width:100%">
+                                            <p style="width:10%;display:inline-block">Martes:&nbsp;&nbsp;&nbsp;&nbsp;</p>
+                                            <mat-form-field appearance="outline" style="width:20%;">
+                                                <mat-label>Desde:</mat-label>
+                                                <input matInput [ngxTimepicker]="toggleTimepicker3" required [formControl]="tuesday_start">
+                                                <ngx-material-timepicker-toggle matSuffix [for]="toggleTimepicker3" style="font-size:xx-small"></ngx-material-timepicker-toggle>
+                                                <ngx-material-timepicker format=24 hoursOnly=true #toggleTimepicker3></ngx-material-timepicker>
+                                            </mat-form-field>
+                                            -
+                                            <mat-form-field appearance="outline" style="width:20%">
+                                                <mat-label>Hasta:</mat-label>
+                                                <input matInput [ngxTimepicker]="toggleTimepicker4" required [formControl]="tuesday_end">
+                                                <ngx-material-timepicker-toggle matSuffix [for]="toggleTimepicker4"></ngx-material-timepicker-toggle>
+                                                <ngx-material-timepicker format=24 hoursOnly=true #toggleTimepicker4></ngx-material-timepicker>
+                                            </mat-form-field>
+                                        </div>
+                                        <div *ngIf="dailyWednesday.classList.contains('dailyselected')" style="width:100%">
+                                            <p style="width:10%;display:inline-block">Miércoles:&nbsp;</p>
+                                            <mat-form-field appearance="outline" style="width:20%;">
+                                                <mat-label>Desde:</mat-label>
+                                                <input matInput [ngxTimepicker]="toggleTimepicker5" required [formControl]="wednesday_start">
+                                                <ngx-material-timepicker-toggle matSuffix [for]="toggleTimepicker5" style="font-size:xx-small"></ngx-material-timepicker-toggle>
+                                                <ngx-material-timepicker format=24 hoursOnly=true #toggleTimepicker5></ngx-material-timepicker>
+                                            </mat-form-field>
+                                            -
+                                            <mat-form-field appearance="outline" style="width:20%">
+                                                <mat-label>Hasta:</mat-label>
+                                                <input matInput [ngxTimepicker]="toggleTimepicker6" required [formControl]="wednesday_end">
+                                                <ngx-material-timepicker-toggle matSuffix [for]="toggleTimepicker6"></ngx-material-timepicker-toggle>
+                                                <ngx-material-timepicker format=24 hoursOnly=true #toggleTimepicker6></ngx-material-timepicker>
+                                            </mat-form-field>
+                                        </div>
+                                        <div *ngIf="dailyThursday.classList.contains('dailyselected')" style="width:100%">
+                                            <p style="width:10%;display:inline-block">Jueves:&nbsp;&nbsp;&nbsp;&nbsp;</p>
+                                            <mat-form-field appearance="outline" style="width:20%;">
+                                                <mat-label>Desde:</mat-label>
+                                                <input matInput [ngxTimepicker]="toggleTimepicker7" required [formControl]="thursday_start">
+                                                <ngx-material-timepicker-toggle matSuffix [for]="toggleTimepicker7" style="font-size:xx-small"></ngx-material-timepicker-toggle>
+                                                <ngx-material-timepicker format=24 hoursOnly=true #toggleTimepicker7></ngx-material-timepicker>
+                                            </mat-form-field>
+                                            -
+                                            <mat-form-field appearance="outline" style="width:20%">
+                                                <mat-label>Hasta:</mat-label>
+                                                <input matInput [ngxTimepicker]="toggleTimepicker8" required [formControl]="thursday_end">
+                                                <ngx-material-timepicker-toggle matSuffix [for]="toggleTimepicker8"></ngx-material-timepicker-toggle>
+                                                <ngx-material-timepicker format=24 hoursOnly=true #toggleTimepicker8></ngx-material-timepicker>
+                                            </mat-form-field>
+                                        </div>
+                                        <div *ngIf="dailyFriday.classList.contains('dailyselected')" style="width:100%">
+                                            <p style="width:10%;display:inline-block">Viernes:&nbsp;&nbsp;&nbsp;</p>
+                                            <mat-form-field appearance="outline" style="width:20%;">
+                                                <mat-label>Desde:</mat-label>
+                                                <input matInput [ngxTimepicker]="toggleTimepicker9" required [formControl]="friday_start">
+                                                <ngx-material-timepicker-toggle matSuffix [for]="toggleTimepicker9" style="font-size:xx-small"></ngx-material-timepicker-toggle>
+                                                <ngx-material-timepicker format=24 hoursOnly=true #toggleTimepicker9></ngx-material-timepicker>
+                                            </mat-form-field>
+                                            -
+                                            <mat-form-field appearance="outline" style="width:20%">
+                                                <mat-label>Hasta:</mat-label>
+                                                <input matInput [ngxTimepicker]="toggleTimepicker10" required [formControl]="friday_end">
+                                                <ngx-material-timepicker-toggle matSuffix [for]="toggleTimepicker10"></ngx-material-timepicker-toggle>
+                                                <ngx-material-timepicker format=24 hoursOnly=true #toggleTimepicker10></ngx-material-timepicker>
+                                            </mat-form-field>
+                                        </div>
+                                        <div *ngIf="dailySaturday.classList.contains('dailyselected')" style="width:100%">
+                                            <p style="width:10%;display:inline-block">Sábado:&nbsp;&nbsp;&nbsp;&nbsp;</p>
+                                            <mat-form-field appearance="outline" style="width:20%;">
+                                                <mat-label>Desde:</mat-label>
+                                                <input matInput [ngxTimepicker]="toggleTimepicker11" required [formControl]="saturday_start">
+                                                <ngx-material-timepicker-toggle matSuffix [for]="toggleTimepicker11" style="font-size:xx-small"></ngx-material-timepicker-toggle>
+                                                <ngx-material-timepicker format=24 hoursOnly=true #toggleTimepicker11></ngx-material-timepicker>
+                                            </mat-form-field>
+                                            -
+                                            <mat-form-field appearance="outline" style="width:20%">
+                                                <mat-label>Hasta:</mat-label>
+                                                <input matInput [ngxTimepicker]="toggleTimepicker12" required [formControl]="saturday_end">
+                                                <ngx-material-timepicker-toggle matSuffix [for]="toggleTimepicker12"></ngx-material-timepicker-toggle>
+                                                <ngx-material-timepicker format=24 hoursOnly=true #toggleTimepicker12></ngx-material-timepicker>
+                                            </mat-form-field>
+                                        </div>
+                                        <div *ngIf="dailySunday.classList.contains('dailyselected')" style="width:100%">
+                                            <p style="width:10%;display:inline-block">Domingo:&nbsp;&nbsp;&nbsp;</p>
+                                            <mat-form-field appearance="outline" style="width:20%;">
+                                                <mat-label>Desde:</mat-label>
+                                                <input matInput [ngxTimepicker]="toggleTimepicker13" required [formControl]="sunday_start">
+                                                <ngx-material-timepicker-toggle matSuffix [for]="toggleTimepicker13" style="font-size:xx-small"></ngx-material-timepicker-toggle>
+                                                <ngx-material-timepicker format=24 hoursOnly=true #toggleTimepicker13></ngx-material-timepicker>
+                                            </mat-form-field>
+                                            -
+                                            <mat-form-field appearance="outline" style="width:20%">
+                                                <mat-label>Hasta:</mat-label>
+                                                <input matInput [ngxTimepicker]="toggleTimepicker14" required [formControl]="sunday_end">
+                                                <ngx-material-timepicker-toggle matSuffix [for]="toggleTimepicker14"></ngx-material-timepicker-toggle>
+                                                <ngx-material-timepicker format=24 hoursOnly=true #toggleTimepicker14></ngx-material-timepicker>
+                                            </mat-form-field>
+                                        </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="margin-left:4%">
+                                <button mat-raised-button color="accent" matStepperPrevious>Atrás</button>
+                                <span fxFlex="8px"></span>
+                                <button mat-raised-button color="primary" (click)="goNext(stepper,'dates')">Siguiente</button>
+                            </div>
+                        </form>
+                    </mat-step>
+                    <mat-step>
+                        <ng-template matStepLabel>Completa</ng-template>
+                        <div class="pb-1 mb-1" style="text-align:center; color:green"> <mat-icon>check</mat-icon>Datos de solicitud completados.</div>
+                        <div class="pb-1 mb-1" >
+                            <div class="half">
+                                <h2><mat-icon>person</mat-icon> Datos personales cliente</h2>
+                                <hr>
+                                <mat-list>
+                                    <mat-list-item><strong style="width:30%">Nombre: </strong><div style="width:70%">{{userInfo.name}}</div></mat-list-item>
+                                    <mat-list-item><strong style="width:30%">Email: </strong><div style="width:70%">{{userInfo.email}}</div></mat-list-item>
+                                    <mat-list-item><strong style="width:30%">Dni: </strong><div style="width:70%">{{userInfo.dni}}</div></mat-list-item>
+                                    <mat-list-item><strong style="width:30%">Teléfono: </strong><div style="width:70%">{{params.phone}}</div></mat-list-item>
+                                </mat-list>
+                            </div>
+                            <div class="half">
+                                <h2><mat-icon>person</mat-icon> Datos personales paciente</h2>
+                                <hr>
+                                <div *ngFor="let user of params.users_details; let i = index">
+                                    {{i+1}}.
+                                    <mat-list>
+                                        <mat-list-item><strong style="width:30%">Nombre: </strong><div style="width:70%">{{user.name}}</div></mat-list-item>
+                                        <mat-list-item><strong style="width:30%">Edad: </strong><div style="width:70%">{{user.age}}</div></mat-list-item>
+                                        <mat-list-item *ngIf="user.type==1 && user.observations!=''"><strong style="width:30%">Observaciones: </strong><div style="width:70%">{{user.observations}}</div></mat-list-item>
+                                        <div *ngIf="user.type==2">
+                                            <mat-list-item *ngIf="user.dependence!=0"><strong style="width:30%">Dependencia: </strong><div style="width:70%">{{user.dependence}}</div></mat-list-item>
+                                            <mat-list-item *ngIf="user.disability!=0"><strong style="width:30%">Discapacidad: </strong><div style="width:70%">{{user.disability}}</div></mat-list-item>
+                                            <mat-list-item *ngIf="user.disability!=0"><strong style="width:30%">Descripción discapacidad: </strong><div style="width:70%">{{user.desc_disability}}</div></mat-list-item>
+                                            <mat-list-item *ngIf="user.pattern!=''"><strong style="width:30%">Pautas: </strong><div style="width:70%">{{user.pattern}}</div></mat-list-item>
+                                        </div>
+                                    </mat-list>
+                                </div>
+                            </div>
+                            <div class="half">
+                                <h2><mat-icon>location_on</mat-icon> Dirección</h2>
+                                <hr>
+                                <mat-list>
+                                    <mat-list-item><strong style="width:30%">Calle: </strong><div style="width:75%">{{params.address_details.street}}</div></mat-list-item>
+                                    <mat-list-item *ngIf="params.address_details.number!=''"><strong style="width:30%">Nº: </strong><div style="width:70%">{{params.address_details.number}}</div></mat-list-item>
+                                    <div *ngIf="params.address_details.type==1">
+                                        <mat-list-item *ngIf="params.address_details.portal!=''"><strong style="width:30%">Portal: </strong><div style="width:70%">{{params.address_details.portal}}</div></mat-list-item>
+                                        <mat-list-item *ngIf="params.address_details.piso!=''"><strong style="width:30%">Piso: </strong><div style="width:70%">{{params.address_details.piso}}</div></mat-list-item>
+                                    </div>
+                                    <div *ngIf="params.address_details.type==2">
+                                        <mat-list-item *ngIf="params.address_details.floor!=''"><strong style="width:30%">Planta: </strong><div style="width:70%">{{params.address_details.floor}}</div></mat-list-item>
+                                        <mat-list-item *ngIf="params.address_details.room!=''"><strong style="width:30%">Habitación: </strong><div style="width:70%">{{params.address_details.room}}</div></mat-list-item>
+                                    </div>
+                                    <mat-list-item *ngIf="params.address_details.aditional!=''"><strong style="width:30%">Adicional: </strong><div style="width:70%">{{params.address_details.aditional}}</div></mat-list-item>
+                                    <mat-list-item><strong style="width:30%">CP: </strong><div style="width:70%">{{params.address_details.cp}}</div></mat-list-item>
+                                    <mat-list-item><strong style="width:30%">Localidad: </strong><div style="width:70%">{{params.address_details.locality}}</div></mat-list-item>
+                                    <mat-list-item><strong style="width:30%">Ciudad: </strong><div style="width:70%">{{params.address_details.city}}</div></mat-list-item>
+                                    <mat-list-item><strong style="width:30%">País: </strong><div style="width:70%">{{params.address_details.country}}</div></mat-list-item>
+                                </mat-list>
+                            </div>
+                            <div class="half">
+                                <h2><mat-icon>calendar_today</mat-icon> Fechas</h2>
+                                <hr>
+                                <mat-list>
+                                    <mat-list-item><strong style="width:30%">Fecha inicio: </strong><div style="width:70%">{{params.start_date}}</div></mat-list-item>
+                                    <mat-list-item><strong style="width:30%">Fecha fin: </strong><div style="width:70%">{{params.end_date}}</div></mat-list-item>
+                                    <mat-list-item><strong style="width:30%">Tipo de servicio: </strong>
+                                        <div style="width:70%" *ngIf="params.occupation_type=='daily'">Servicio 24 horas</div>
+                                        <div style="width:70%" *ngIf="params.occupation_type=='hourly'">Servicio por horas</div>
+                                    </mat-list-item>
+                                    <mat-list-item>
+                                        <strong >Horarios: </strong>
+                                    </mat-list-item>
+                                    <div style="width:100%; padding-left:30%" *ngFor="let day of days">
+                                        <div *ngIf="day=='monday'" style="width:100%">
+                                            <div style="width:30%; display: inline-block">- Lunes</div>
+                                            <div style="width:70%; display: inline-block" *ngIf="params.schedule[day]!=true" class="horario">
+                                                {{params.schedule[day].start}} - {{params.schedule[day].end}}
+                                            </div>
+                                        </div>
+                                        <div *ngIf="day=='tuesday'" style="width:100%">
+                                            <div style="width:30%; display: inline-block">- Martes</div>
+                                            <div style="width:70%; display: inline-block" *ngIf="params.schedule[day]!=true" class="horario">
+                                                {{params.schedule[day].start}} - {{params.schedule[day].end}}
+                                            </div>
+                                        </div>
+                                        <div *ngIf="day=='wednesday'" style="width:100%">
+                                            <div style="width:30%; display: inline-block">- Miércoles</div>
+                                            <div style="width:70%; display: inline-block" *ngIf="params.schedule[day]!=true" class="horario">
+                                                {{params.schedule[day].start}} - {{params.schedule[day].end}}
+                                            </div>
+                                        </div>
+                                        <div *ngIf="day=='thursday'" style="width:100%">
+                                            <div style="width:30%; display: inline-block">- Jueves</div>
+                                            <div style="width:70%; display: inline-block" *ngIf="params.schedule[day]!=true" class="horario">
+                                                {{params.schedule[day].start}} - {{params.schedule[day].end}}
+                                            </div>
+                                        </div>
+                                        <div *ngIf="day=='friday'" style="width:100%">
+                                            <div style="width:30%; display: inline-block">- Viernes</div>
+                                            <div style="width:70%; display: inline-block" *ngIf="params.schedule[day]!=true" class="horario">
+                                                {{params.schedule[day].start}} - {{params.schedule[day].end}}
+                                            </div>
+                                        </div>
+                                        <div *ngIf="day=='saturday'" style="width:100%">
+                                            <div style="width:30%; display: inline-block">- Sábado</div>
+                                            <div style="width:70%; display: inline-block" *ngIf="params.schedule[day]!=true" class="horario">
+                                                {{params.schedule[day].start}} - {{params.schedule[day].end}}
+                                            </div>
+                                        </div>
+                                        <div *ngIf="day=='sunday'" style="width:100%">
+                                            <div style="width:30%; display: inline-block">- Domingo</div>
+                                            <div style="width:70%; display: inline-block" *ngIf="params.schedule[day]!=true" class="horario">
+                                                {{params.schedule[day].start}} - {{params.schedule[day].end}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </mat-list>
+                            </div>
+                        </div>
+                        <div fxLayout="row" style="margin-left:4%">
+                            <button mat-raised-button color="accent" matStepperPrevious>Atrás</button>
+                            <span fxFlex="8px"></span>
+                            <button mat-raised-button color="primary" (click)="createService('infantil')">Solicitar</button>
+                        </div>
+                      </mat-step>
+                </mat-horizontal-stepper>
+                </form>
+            </div>
+        </div>
+        <div *ngIf="type==''" style="padding:10%; width:100%;">
+            <p style="text-align: center; margin-bottom:5%;"> Seleccione uno de los tipo de servicios para comenzar la solicutud</p>
+            <div style="width:100%">
+                <div style="width:10%;display:inline-grid">
+                    <mat-icon style="font-size:xxx-large">arrow_forward_ios</mat-icon>
+                </div>
+                <div style="width:90%; display:inline-grid">
+                    <h2><strong>Procedimiento</strong></h2>
+                    <p style="text-align:justify-all"> Una vez solicitado el servicio el procedimiento será el siguiente: <br>
+                    El servicio será asignado a uno de los trabajadores. Una vez el servicio sea aceptado será notificado
+                        mediante un correo electrónico. El trabajador se encargará de informarle con regularidad mediante el
+                    sistema de seguimiento.<br> Puede cancelar el servicio en el momento que desee.</p>
+                </div>
+            </div>
+        </div>
+    </mat-card-content>
+</mat-card>

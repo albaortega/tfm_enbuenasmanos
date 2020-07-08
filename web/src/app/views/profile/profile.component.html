@@ -1,0 +1,167 @@
+<div fxLayout="row wrap">
+    <div style="width:100%">
+        <mat-card class="profile-sidebar mb-1">
+            <mat-card-title><h1>Perfil</h1></mat-card-title>
+            <div class="propic pl-20 text-center" style="width:30%; display: inline-block;">
+                <img [src]="picture" alt="">
+            </div>
+            <div style="width:70%; display: inline-block;">
+                <div class="profile-title pl-20 mb-1">
+                    <div class="main-title">
+                        <div *ngIf="!editUser" style="display:inline"> {{name}} </div>
+                        <mat-form-field *ngIf="editUser" style="width:50%">
+                            <mat-label>Nombre</mat-label>
+                            <input matInput [value]="name" [formControl]="nameInput" required>
+                        </mat-form-field>
+                        <mat-icon *ngIf="!editUser" (click)="editUser=true">edit</mat-icon></div>
+                    <div class="default ">
+                        <mat-card-content class="pt-0 pl-20">
+                            <mat-list>
+                                <mat-list-item><mat-icon class="mr-1">info</mat-icon> {{role}}</mat-list-item>
+                                <mat-list-item><mat-icon class="mr-1">person</mat-icon>
+                                    <div *ngIf="!editUser">{{dni}}</div>
+                                    <mat-form-field *ngIf="editUser">
+                                        <mat-label>Dni</mat-label>
+                                        <input matInput [formControl]="dniInput" required>
+                                    </mat-form-field>
+                                </mat-list-item>
+                                <mat-list-item><mat-icon class="mr-1">email</mat-icon>{{email}}</mat-list-item>
+                            </mat-list>
+                            <div *ngIf="editUser" style="float:right;margin:0 3% 2% 0">
+                                <button mat-raised-button (click)="editUser=false">Cancelar</button>
+                                <button mat-raised-button color="primary" (click)="editProfile()">Guardar</button>
+                            </div>
+                        </mat-card-content>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="user">
+                <mat-card>
+                    <mat-card-title>
+                        <mat-icon *ngIf="!userView" (click)="userView=true" class="icon">add</mat-icon>
+                        <mat-icon *ngIf="userView" (click)="userView=false" class="icon">remove</mat-icon>
+                        DATOS DE USUARIO
+                    </mat-card-title>
+                    <hr>
+                    <mat-card-content *ngIf="userView">
+                        <mat-card class="bg-grey">
+                            <mat-card-title><mat-icon>phone</mat-icon> Teléfonos <button mat-raised-button color="primary" style="float:right" (click)="openModalNewPhone()"><mat-icon>add_ic_call</mat-icon> Nuevo </button></mat-card-title>
+                            <hr>
+                            <mat-card-content>
+                                <mat-table [dataSource]="phonesList" style="overflow-x:auto;" class="roundtable">
+                                    <ng-container matColumnDef="number" style="width:80%">
+                                        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                                        <mat-cell class="col-10" *matCellDef="let element"><h4>{{element.number}} </h4> </mat-cell>
+                                    </ng-container>
+                                    <ng-container matColumnDef="action" style="width:20%">
+                                        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                                        <mat-cell class="col-2" *matCellDef="let element"> <a href="javascript:" class="btn btn-secondary col-1" *ngIf="len_phoneList>1" (click)="deletePhone(element.id)"><mat-icon>delete</mat-icon></a> </mat-cell>
+                                    </ng-container>
+
+                                    <mat-row *matRowDef="let row; columns: displayedColumnsPhones;"></mat-row>
+                                </mat-table>
+                            </mat-card-content>
+                        </mat-card>
+                        <mat-card class="bg-grey">
+                            <mat-card-title><mat-icon>location_on</mat-icon> Direcciones <button mat-raised-button color="primary" style="float:right" (click)="openModalNewAddress()"><mat-icon>add_location</mat-icon> Nuevo </button></mat-card-title>
+                            <hr>
+                            <mat-card-content>
+                                <mat-table [dataSource]="addressesList" style="overflow-x:auto;" class="roundtable">
+                                    <ng-container matColumnDef="street">
+                                        <mat-header-cell *matHeaderCellDef>Calle</mat-header-cell>
+                                        <mat-cell class="col-10" *matCellDef="let element"><h5>{{element.street}} </h5> </mat-cell>
+                                    </ng-container>
+                                    <ng-container matColumnDef="number">
+                                        <mat-header-cell *matHeaderCellDef>Nº</mat-header-cell>
+                                        <mat-cell class="col-10" *matCellDef="let element"><h5>{{element.number}} </h5> </mat-cell>
+                                    </ng-container>
+                                    <ng-container matColumnDef="city">
+                                        <mat-header-cell *matHeaderCellDef>Ciudad</mat-header-cell>
+                                        <mat-cell class="col-10" *matCellDef="let element"><h5>{{element.city}}</h5></mat-cell>
+                                    </ng-container>
+                                    <ng-container matColumnDef="country">
+                                        <mat-header-cell *matHeaderCellDef>País</mat-header-cell>
+                                        <mat-cell class="col-10" *matCellDef="let element"><h5>{{element.country}}</h5></mat-cell>
+                                    </ng-container>
+                                    <ng-container matColumnDef="action">
+                                        <mat-header-cell *matHeaderCellDef>Acciones</mat-header-cell>
+                                        <mat-cell class="col-2" *matCellDef="let element">
+                                            <a href="javascript:" class="btn btn-secondary col-1" (click)="editAdress(element.id)"><mat-icon>edit</mat-icon></a>
+                                            <a href="javascript:" class="btn btn-secondary col-1" (click)="deleteAddress(element.id)" *ngIf="len_addressesList>1"><mat-icon>delete</mat-icon></a>
+                                        </mat-cell>
+                                    </ng-container>
+                                    <mat-header-row *matHeaderRowDef="displayedColumnsAddresses"></mat-header-row>
+                                    <mat-row *matRowDef="let row; columns: displayedColumnsAddresses;"></mat-row>
+                                </mat-table>
+                            </mat-card-content>
+                        </mat-card>
+                        <mat-card class="mb-3 bg-grey">
+                            <mat-card-title><mat-icon>people</mat-icon> Personas asistidas <button mat-raised-button color="primary" style="float:right" (click)="openModalNewPerson()"><mat-icon>person_add</mat-icon> Nuevo </button></mat-card-title>
+                            <hr>
+                            <mat-card-content>
+                                <mat-table [dataSource]="peopleList" style="overflow-x:auto;" class="roundtable">
+                                    <ng-container matColumnDef="name">
+                                        <mat-header-cell *matHeaderCellDef><strong>Nombre</strong></mat-header-cell>
+                                        <mat-cell class="col-10" *matCellDef="let element"><h5>{{element.name}} </h5> </mat-cell>
+                                    </ng-container>
+                                    <ng-container matColumnDef="age">
+                                        <mat-header-cell *matHeaderCellDef>Edad</mat-header-cell>
+                                        <mat-cell class="col-10" *matCellDef="let element"><h5>{{element.age}} </h5> </mat-cell>
+                                    </ng-container>
+                                    <ng-container matColumnDef="type">
+                                        <mat-header-cell *matHeaderCellDef>Tipo</mat-header-cell>
+                                        <mat-cell class="col-10" *matCellDef="let element">
+                                            <h5 *ngIf="element.type==1">Infantil</h5>
+                                            <h5 *ngIf="element.type==2">Adulto</h5>
+                                        </mat-cell>
+                                    </ng-container>
+                                    <ng-container matColumnDef="action">
+                                        <mat-header-cell *matHeaderCellDef>Acciones</mat-header-cell>
+                                        <mat-cell class="col-2" *matCellDef="let element">
+                                            <a href="javascript:" class="btn btn-secondary col-1" (click)="editPerson(element.id)"><mat-icon>edit</mat-icon></a>
+                                            <a href="javascript:" class="btn btn-secondary col-1" (click)="deletePerson(element.id)" *ngIf="len_peopleList>1"><mat-icon>delete</mat-icon></a>
+                                        </mat-cell>
+                                    </ng-container>
+                                    <mat-header-row *matHeaderRowDef="displayedColumnsPeople"></mat-header-row>
+                                    <mat-row *matRowDef="let row; columns: displayedColumnsPeople;"></mat-row>
+                                </mat-table>
+                            </mat-card-content>
+                        </mat-card>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+            <div *ngIf="worker">
+                <mat-card class="workerInfo">
+                    <mat-card-title>
+                        <mat-icon *ngIf="!workerView" (click)="workerView=true" class="icon">add</mat-icon>
+                        <mat-icon *ngIf="workerView" (click)="workerView=false" class="icon">remove</mat-icon>
+                        DATOS DE TRABAJADOR
+                    </mat-card-title>
+                    <hr>
+                    <mat-card-content *ngIf="workerView">
+                        <mat-list>
+                            <mat-list-item><mat-icon style="color:darkgreen; font-size:large" class="mr-1">lens</mat-icon><strong> Estado: </strong>  &nbsp; En activo</mat-list-item>
+                            <mat-list-item><mat-icon class="mr-1">phone</mat-icon><strong>Teléfono: </strong>
+                                <div *ngIf="!editWorker"> &nbsp;{{worker_phone}} <mat-icon style="vertical-align:middle;font-size:medium" (click)="editWorker=true">edit</mat-icon></div>
+                                <div *ngIf="editWorker">
+                                    <mat-form-field>
+                                        <input matInput [value]="worker_phone" [formControl]="phoneInput" required>
+                                    </mat-form-field>
+                                    <mat-icon (click)="savePhoneWorker()">done</mat-icon>
+                                    <mat-icon (click)="editWorker=false">clear</mat-icon>
+                                </div>
+                            </mat-list-item>
+                            <mat-list-item><mat-icon class="mr-1">today</mat-icon><strong> Fecha de incorporación: </strong>  &nbsp; {{worker_incorporation_date}}</mat-list-item>
+                            <mat-list-item *ngIf="worker_free"><mat-icon style="color:darkgreen; font-size:large" class="mr-1">lens</mat-icon><strong> Ocupación: </strong>  &nbsp;Libre </mat-list-item>
+                            <mat-list-item *ngIf="!worker_free"><mat-icon style="color:darkorange; font-size:large" class="mr-1">lens</mat-icon><strong> Ocupación: </strong>  &nbsp;Media </mat-list-item>
+                            <mat-list-item><mat-checkbox [formControl]="checkAcceptMore" (change)="changeAcceptMore($event)"> &nbsp;&nbsp;&nbsp;&nbsp;Acepta más servicios</mat-checkbox></mat-list-item>
+                        </mat-list>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+        </mat-card>
+
+
+    </div>
+
+</div>

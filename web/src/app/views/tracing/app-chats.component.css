@@ -1,0 +1,31 @@
+mat-sidenav-container{
+    height: 720px;
+}
+.single-conversation.me{
+    float:right;
+    width: 100%;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+}
+.sender{
+    width: 100%;
+}
+.sender.conversation-msg{
+    background-color: lightgray;
+}
+.chats-wrap .conversations-hold .single-conversation.sender .conversation-msg {
+    background: lightgrey;
+}
+.chats-wrap .chat-input-actions {
+    padding: 0 .6rem;
+}
+.selected{
+    background-color: #e4dfdf;
+    border: none;
+}
+mat-form-field .mat-form-field-wrapper{
+    padding:0;
+}
+.chats-wrap .conversations-hold .single-conversation {
+    margin-bottom: 3%;
+}

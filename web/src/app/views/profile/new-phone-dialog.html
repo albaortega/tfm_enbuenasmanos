@@ -1,0 +1,14 @@
+<h1 mat-dialog-title><mat-icon>add_ic_call</mat-icon> Nuevo teléfono </h1>
+<div mat-dialog-content>
+  <form>
+      <mat-form-field>
+          <mat-label>Teléfono</mat-label>
+          <input matInput [formControl]="phone" required>
+      </mat-form-field>
+  </form>
+
+</div>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancelar</button>
+  <button mat-button [mat-dialog-close]="true" (click)="savePhone()">Guardar</button>
+</mat-dialog-actions>

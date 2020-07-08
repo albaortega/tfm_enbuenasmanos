@@ -1,0 +1,46 @@
+
+    <mat-card-title>
+        <h1 style="display: inline-block"><strong>Empleados dados de baja</strong></h1>
+    </mat-card-title>
+    <hr>
+    <mat-card-content>
+        <mat-form-field id="filter" class="row">
+            <input matInput (keyup)="applyFilter($event)">
+            <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+        <mat-table [dataSource]="this.listWorkers" style="width:100%; overflow-x:auto;" class="roundtable">
+            <ng-container matColumnDef="picture">
+                <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                <mat-cell class="col-10" *matCellDef="let element"><img [src]="element.picture" alt="" style="border-radius:50%;width:70px;padding:3% 0;"></mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="name">
+                <mat-header-cell *matHeaderCellDef>Nombre</mat-header-cell>
+                <mat-cell class="col-10" *matCellDef="let element">{{element.name}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="email">
+                <mat-header-cell *matHeaderCellDef>Email</mat-header-cell>
+                <mat-cell class="col-10" *matCellDef="let element">{{element.email}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="phone">
+                <mat-header-cell *matHeaderCellDef>Teléfono</mat-header-cell>
+                <mat-cell class="col-10" *matCellDef="let element">{{element.phone}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="final_date">
+                <mat-header-cell *matHeaderCellDef>Fecha de baja</mat-header-cell>
+                <mat-cell class="col-10" *matCellDef="let element">{{element.final_date}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="actions">
+                <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                <mat-cell class="col-2" *matCellDef="let element">
+                    <a href="javascript:" class="btn btn-secondary col-1" (click)="detailsWorker(element.id)"><mat-icon style="color: royalblue" >remove_red_eye</mat-icon></a>
+                    <button mat-raised-button color="accent" (click)="openactivateWorker(element.id)">Dar de alta</button>
+                </mat-cell>
+            </ng-container>
+            <mat-header-row *matHeaderRowDef="WorkerColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: WorkerColumns;"></mat-row>
+        </mat-table>
+        <p *ngIf="this.listWorkers.data.length==0" style="padding:5%; text-align: center;"> No existen trabajadores en el sistema</p>
+    </mat-card-content>
+    <mat-dialog-actions align="end">
+        <button mat-button mat-dialog-close>OK</button>
+    </mat-dialog-actions>

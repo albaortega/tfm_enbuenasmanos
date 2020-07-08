@@ -1,0 +1,49 @@
+.mat-row{
+  border-bottom: none;
+}
+.mat-row:nth-child(odd){
+  background-color: #f7f5f5;
+}
+.half {
+  width:50%
+}
+.complete{
+  width: 100%;
+}
+.inputnewService{
+  width:46%;
+  margin-right:2%;
+  margin-left:2%;
+}
+.bg-grey{
+  background-color: #f7f5f5;
+}
+.mat-header-row{
+  background-color: rgba(34, 42, 69, 0.2);
+  border-bottom: 1px solid dimgrey;
+}
+.roundtable{
+  border-radius:5px;
+  border: 0.5px solid lightgrey;
+}
+.icon{
+  vertical-align: middle;
+}
+.icon:hover{
+  cursor: pointer;
+}
+.mr-1{
+  vertical-align: middle;
+}
+.mat-column-action {
+  flex: 0 0 10% !important;
+  width: 10% !important;
+}
+.mat-column-street {
+  flex: 0 0 35% !important;
+  width: 35% !important;
+}
+.mat-column-name {
+  flex: 0 0 35% !important;
+  width: 35% !important;
+}

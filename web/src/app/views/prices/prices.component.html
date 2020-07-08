@@ -1,0 +1,391 @@
+<mat-card id="prices">
+    <mat-card-title>
+        <h1 style="display: inline-block"><strong>Precios</strong></h1>
+    </mat-card-title>
+    <hr>
+    <mat-card-content>
+        <mat-card style="margin-top:0; padding:0; border:1px solid lightgrey">
+            <mat-card-title style="padding:1% 2%">
+                <h4 style="display: inline-block;">Domicilio infantil</h4>
+                <button mat-raised-button *ngIf="!editKidsPrices" (click)="editKidsPrices=true" style="float:right; border: 1px solid lightgrey; background-color: #e3e2e2"><mat-icon>edit</mat-icon> Editar</button>
+                <div style="cursor: pointer; float:right" *ngIf="editKidsPrices">
+                    <button mat-raised-button style="border: 1px solid darkgreen; background-color: #e4fde4" (click)="saveKidsPrices()"><mat-icon style="color:darkgreen">done</mat-icon> Guardar </button>
+                    <button mat-raised-button style="border: 1px solid darkred; background-color: #f9d2d2" (click)="editKidsPrices=false"><mat-icon style="color:darkred" >close</mat-icon> Cancelar</button>
+                </div>
+            </mat-card-title>
+            <mat-divider></mat-divider>
+            <mat-card-content>
+                <div style="width:45%;display:inline-block; background: url('../../../assets/images/kids.jpg'); background-position:top; background-size: cover;" >
+                    <mat-card style="background-color: #f7f1f1; padding:8px 0; visibility:hidden">
+                        <mat-card-title style="text-align:left; padding-left:16px;"><mat-icon style="vertical-align: middle">access_time</mat-icon>    Servicio 24 horas</mat-card-title>
+                        <mat-card-content style="text-align: center">
+                            <h2> 10'<sup>99<small> €/día</small></sup></h2>
+                        </mat-card-content>
+                    </mat-card>
+                    <mat-card style="background-color: #f7f1f1; padding:8px 0; visibility:hidden">
+                        <mat-card-title style="text-align:left; padding-left:16px;"><mat-icon style="vertical-align: middle">timelapse</mat-icon>    Servicio por horas</mat-card-title>
+                        <mat-card-content style="text-align: center">
+                            <mat-card style="padding:8px 0; width:46%; display: inline-block">
+                                <mat-card-title style="text-align:left; padding-left:16px; margin: 0 .5em;"><mat-icon style="vertical-align: middle">bedtime</mat-icon> Horario nocturno</mat-card-title>
+                                <mat-card-content style="text-align: center">
+                                    <mat-card style="background-color: #f7f1f1; padding:8px;">
+                                        <mat-card-title>De lunes a viernes</mat-card-title>
+                                        <mat-card-content style="text-align: center">
+                                            <h2> 10'<sup>99<small> €/día</small></sup></h2>
+                                        </mat-card-content>
+                                    </mat-card>
+                                    <mat-card style="background-color: #f7f1f1; padding:8px">
+                                        <mat-card-title>Fin de semana</mat-card-title>
+                                        <mat-card-content style="text-align: center">
+                                            <h2> 10'<sup>99<small> €/día</small></sup></h2>
+                                        </mat-card-content>
+                                    </mat-card>
+                                </mat-card-content>
+                            </mat-card>
+                            <mat-card style="padding:8px 0; width:46%; display: inline-block; margin-top: 0;margin-bottom: .5rem;">
+                                <mat-card-title style="text-align:left; padding-left:16px;margin: 0 .5em;"><mat-icon style="vertical-align: middle">wb_sunny</mat-icon> Horario diurno</mat-card-title>
+                                <mat-card-content style="text-align: center">
+                                    <mat-card style="background-color: #f7f1f1; padding:8px">
+                                        <mat-card-title>De lunes a viernes</mat-card-title>
+                                        <mat-card-content style="text-align: center">
+                                            <h2> 10'<sup>99<small> €/día</small></sup></h2>
+                                        </mat-card-content>
+                                    </mat-card>
+                                    <mat-card style="background-color: #f7f1f1; padding:8px">
+                                        <mat-card-title>Fin de semana</mat-card-title>
+                                        <mat-card-content style="text-align: center">
+                                            <h2> 10'<sup>99<small> €/día</small></sup></h2>
+                                        </mat-card-content>
+                                    </mat-card>
+                                </mat-card-content>
+                            </mat-card>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+                <div style="width:55%; display:inline-block">
+                    <mat-card style="background-color: #f7f1f1; padding:8px 0">
+                        <mat-card-title style="text-align:left; padding-left:16px;"><mat-icon style="vertical-align: middle">access_time</mat-icon>    Servicio 24 horas</mat-card-title>
+                        <mat-card-content style="text-align: center">
+                            <h2  *ngIf="!editKidsPrices"> {{kids24h[0]}}'<sup>{{kids24h[1]}}<small> €/día</small></sup></h2>
+                            <mat-form-field *ngIf="editKidsPrices" appearance="outline">
+                                <input matInput required [formControl]="kids24hformcontrol">
+                                <p matSuffix>€</p>
+                            </mat-form-field>
+                        </mat-card-content>
+                    </mat-card>
+                    <mat-card style="background-color: #f7f1f1; padding:8px 0">
+                        <mat-card-title style="text-align:left; padding-left:16px;"><mat-icon style="vertical-align: middle">timelapse</mat-icon>    Servicio por horas</mat-card-title>
+                        <mat-card-content style="text-align: center">
+                            <mat-card style="padding:8px 0; width:46%; display: inline-block">
+                                <mat-card-title style="text-align:left; padding-left:16px; margin: 0 .5em;"><mat-icon style="vertical-align: middle">bedtime</mat-icon> Horario nocturno</mat-card-title>
+                                <mat-card-content style="text-align: center">
+                                    <mat-card style="background-color: #f7f1f1; padding:8px;">
+                                        <mat-card-title>De lunes a viernes</mat-card-title>
+                                        <mat-card-content style="text-align: center">
+                                            <h2 *ngIf="!editKidsPrices"> {{kidsweeknight[0]}}'<sup>{{kidsweeknight[1]}}<small> €/día</small></sup></h2>
+                                            <mat-form-field *ngIf="editKidsPrices" appearance="outline">
+                                                <input matInput required [formControl]="kidsweeknightformcontrol">
+                                                <p matSuffix>€</p>
+                                            </mat-form-field>
+                                        </mat-card-content>
+                                    </mat-card>
+                                    <mat-card style="background-color: #f7f1f1; padding:8px">
+                                        <mat-card-title>Fin de semana</mat-card-title>
+                                        <mat-card-content style="text-align: center">
+                                            <h2 *ngIf="!editKidsPrices"> {{kidsweekendnight[0]}}'<sup>{{kidsweekendnight[1]}}<small> €/día</small></sup></h2>
+                                            <mat-form-field *ngIf="editKidsPrices" appearance="outline">
+                                                <input matInput required [formControl]="kidsweekendnightformcontrol">
+                                                <p matSuffix>€</p>
+                                            </mat-form-field>
+                                        </mat-card-content>
+                                    </mat-card>
+                                </mat-card-content>
+                            </mat-card>
+                            <mat-card style="padding:8px 0; width:46%; display: inline-block; margin-top: 0;margin-bottom: .5rem;">
+                                <mat-card-title style="text-align:left; padding-left:16px;margin: 0 .5em;"><mat-icon style="vertical-align: middle">wb_sunny</mat-icon> Horario diurno</mat-card-title>
+                                <mat-card-content style="text-align: center">
+                                    <mat-card style="background-color: #f7f1f1; padding:8px">
+                                        <mat-card-title>De lunes a viernes</mat-card-title>
+                                        <mat-card-content style="text-align: center">
+                                            <h2 *ngIf="!editKidsPrices"> {{kidsweekday[0]}}'<sup>{{kidsweekday[1]}}<small> €/día</small></sup></h2>
+                                            <mat-form-field *ngIf="editKidsPrices" appearance="outline">
+                                                <input matInput required [formControl]="kidsweekdayformcontrol">
+                                                <p matSuffix>€</p>
+                                            </mat-form-field>
+                                        </mat-card-content>
+                                    </mat-card>
+                                    <mat-card style="background-color: #f7f1f1; padding:8px">
+                                        <mat-card-title>Fin de semana</mat-card-title>
+                                        <mat-card-content style="text-align: center">
+                                            <h2 *ngIf="!editKidsPrices"> {{kidsweekendday[0]}}'<sup>{{kidsweekendday[1]}}<small> €/día</small></sup></h2>
+                                            <mat-form-field *ngIf="editKidsPrices" appearance="outline">
+                                                <input matInput required [formControl]="kidsweekenddayformcontrol">
+                                                <p matSuffix>€</p>
+                                            </mat-form-field>
+                                        </mat-card-content>
+                                    </mat-card>
+                                </mat-card-content>
+                            </mat-card>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+            </mat-card-content>
+        </mat-card>
+        <mat-card style="margin-top:0; padding:0; border:1px solid lightgrey">
+            <mat-card-title style="padding:1% 2%">
+                <h4 style="display: inline-block;">Domicilio adulto</h4>
+                <button mat-raised-button *ngIf="!editHomePrices" (click)="editHomePrices=true" style="float:right; border: 1px solid lightgrey; background-color: #e3e2e2"><mat-icon>edit</mat-icon> Editar</button>
+                <div style="cursor: pointer; float:right" *ngIf="editHomePrices">
+                    <button mat-raised-button style="border: 1px solid darkgreen; background-color: #e4fde4" (click)="saveHomePrices()"><mat-icon style="color:darkgreen">done</mat-icon> Guardar </button>
+                    <button mat-raised-button style="border: 1px solid darkred; background-color: #f9d2d2" (click)="editHomePrices=false"><mat-icon style="color:darkred" >close</mat-icon> Cancelar</button>
+                </div>
+            </mat-card-title>
+            <mat-divider></mat-divider>
+            <mat-card-content>
+                <div style="width:55%; display:inline-block">
+                    <mat-card style="background-color: #f7f1f1; padding:8px 0">
+                        <mat-card-title style="text-align:left; padding-left:16px;"><mat-icon style="vertical-align: middle">access_time</mat-icon>    Servicio 24 horas</mat-card-title>
+                        <mat-card-content style="text-align: center">
+                            <h2 *ngIf="!editHomePrices"> {{home24h[0]}}'<sup>{{home24h[1]}}<small> €/día</small></sup></h2>
+                            <mat-form-field *ngIf="editHomePrices" appearance="outline">
+                                <input matInput required [formControl]="home24hformcontrol">
+                                <p matSuffix>€</p>
+                            </mat-form-field>
+                        </mat-card-content>
+                    </mat-card>
+                    <mat-card style="background-color: #f7f1f1; padding:8px 0">
+                        <mat-card-title style="text-align:left; padding-left:16px;"><mat-icon style="vertical-align: middle">timelapse</mat-icon>    Servicio por horas</mat-card-title>
+                        <mat-card-content style="text-align: center">
+                            <mat-card style="padding:8px 0; width:46%; display: inline-block">
+                                <mat-card-title style="text-align:left; padding-left:16px; margin: 0 .5em;"><mat-icon style="vertical-align: middle">bedtime</mat-icon> Horario nocturno</mat-card-title>
+                                <mat-card-content style="text-align: center">
+                                    <mat-card style="background-color: #f7f1f1; padding:8px;">
+                                        <mat-card-title>De lunes a viernes</mat-card-title>
+                                        <mat-card-content style="text-align: center">
+                                            <h2 *ngIf="!editHomePrices"> {{homeweeknight[0]}}'<sup>{{homeweeknight[1]}}<small> €/día</small></sup></h2>
+                                            <mat-form-field *ngIf="editHomePrices" appearance="outline">
+                                                <input matInput required [formControl]="homeweeknightformcontrol">
+                                                <p matSuffix>€</p>
+                                            </mat-form-field>
+                                        </mat-card-content>
+                                    </mat-card>
+                                    <mat-card style="background-color: #f7f1f1; padding:8px">
+                                        <mat-card-title>Fin de semana</mat-card-title>
+                                        <mat-card-content style="text-align: center">
+                                            <h2 *ngIf="!editHomePrices"> {{homeweekendnight[0]}}'<sup>{{homeweekendnight[1]}}<small> €/día</small></sup></h2>
+                                            <mat-form-field *ngIf="editHomePrices" appearance="outline">
+                                                <input matInput required [formControl]="homeweekendnightformcontrol">
+                                                <p matSuffix>€</p>
+                                            </mat-form-field>
+                                        </mat-card-content>
+                                    </mat-card>
+                                </mat-card-content>
+                            </mat-card>
+                            <mat-card style="padding:8px 0; width:46%; display: inline-block; margin-top: 0;margin-bottom: .5rem;">
+                                <mat-card-title style="text-align:left; padding-left:16px;margin: 0 .5em;"><mat-icon style="vertical-align: middle">wb_sunny</mat-icon> Horario diurno</mat-card-title>
+                                <mat-card-content style="text-align: center">
+                                    <mat-card style="background-color: #f7f1f1; padding:8px">
+                                        <mat-card-title>De lunes a viernes</mat-card-title>
+                                        <mat-card-content style="text-align: center">
+                                            <h2 *ngIf="!editHomePrices"> {{homeweekday[0]}}'<sup>{{homeweekday[1]}}<small> €/día</small></sup></h2>
+                                            <mat-form-field *ngIf="editHomePrices" appearance="outline">
+                                                <input matInput required [formControl]="homeweekdayformcontrol">
+                                                <p matSuffix>€</p>
+                                            </mat-form-field>
+                                        </mat-card-content>
+                                    </mat-card>
+                                    <mat-card style="background-color: #f7f1f1; padding:8px">
+                                        <mat-card-title>Fin de semana</mat-card-title>
+                                        <mat-card-content style="text-align: center">
+                                            <h2 *ngIf="!editHomePrices"> {{homeweekendday[0]}}'<sup>{{homeweekendday[1]}}<small> €/día</small></sup></h2>
+                                            <mat-form-field *ngIf="editHomePrices" appearance="outline">
+                                                <input matInput required [formControl]="homeweekenddayformcontrol">
+                                                <p matSuffix>€</p>
+                                            </mat-form-field>
+                                        </mat-card-content>
+                                    </mat-card>
+                                </mat-card-content>
+                            </mat-card>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+                <div style="width:45%; display:inline-block; background: url('../../../assets/images/home-care.png'); background-position: top; background-size: cover;">
+                    <mat-card style="background-color: #f7f1f1; padding:8px 0; visibility: hidden">
+                        <mat-card-title style="text-align:left; padding-left:16px;"><mat-icon style="vertical-align: middle">access_time</mat-icon>    Servicio 24 horas</mat-card-title>
+                        <mat-card-content style="text-align: center">
+                            <h2> 10'<sup>99<small> €/día</small></sup></h2>
+                        </mat-card-content>
+                    </mat-card>
+                    <mat-card style="background-color: #f7f1f1; padding:8px 0; visibility: hidden">
+                        <mat-card-title style="text-align:left; padding-left:16px;"><mat-icon style="vertical-align: middle">timelapse</mat-icon>    Servicio por horas</mat-card-title>
+                        <mat-card-content style="text-align: center">
+                            <mat-card style="padding:8px 0; width:46%; display: inline-block">
+                                <mat-card-title style="text-align:left; padding-left:16px; margin: 0 .5em;"><mat-icon style="vertical-align: middle">bedtime</mat-icon> Horario nocturno</mat-card-title>
+                                <mat-card-content style="text-align: center">
+                                    <mat-card style="background-color: #f7f1f1; padding:8px;">
+                                        <mat-card-title>De lunes a viernes</mat-card-title>
+                                        <mat-card-content style="text-align: center">
+                                            <h2> 10'<sup>99<small> €/día</small></sup></h2>
+                                        </mat-card-content>
+                                    </mat-card>
+                                    <mat-card style="background-color: #f7f1f1; padding:8px">
+                                        <mat-card-title>Fin de semana</mat-card-title>
+                                        <mat-card-content style="text-align: center">
+                                            <h2> 10'<sup>99<small> €/día</small></sup></h2>
+                                        </mat-card-content>
+                                    </mat-card>
+                                </mat-card-content>
+                            </mat-card>
+                            <mat-card style="padding:8px 0; width:46%; display: inline-block; margin-top: 0;margin-bottom: .5rem;">
+                                <mat-card-title style="text-align:left; padding-left:16px;margin: 0 .5em;"><mat-icon style="vertical-align: middle">wb_sunny</mat-icon> Horario diurno</mat-card-title>
+                                <mat-card-content style="text-align: center">
+                                    <mat-card style="background-color: #f7f1f1; padding:8px">
+                                        <mat-card-title>De lunes a viernes</mat-card-title>
+                                        <mat-card-content style="text-align: center">
+                                            <h2> 10'<sup>99<small> €/día</small></sup></h2>
+                                        </mat-card-content>
+                                    </mat-card>
+                                    <mat-card style="background-color: #f7f1f1; padding:8px">
+                                        <mat-card-title>Fin de semana</mat-card-title>
+                                        <mat-card-content style="text-align: center">
+                                            <h2> 10'<sup>99<small> €/día</small></sup></h2>
+                                        </mat-card-content>
+                                    </mat-card>
+                                </mat-card-content>
+                            </mat-card>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+           </mat-card-content>
+        </mat-card>
+
+        <mat-card style="margin-top:0; padding:0; border:1px solid lightgrey; ">
+            <mat-card-title style="padding:1% 2%">
+                <h4 style="display: inline-block;">Hospital</h4>
+                <button mat-raised-button *ngIf="!editHospitalPrices" (click)="editHospitalPrices=true" style="float:right; border: 1px solid lightgrey; background-color: #e3e2e2"><mat-icon>edit</mat-icon> Editar</button>
+                <div style="cursor: pointer; float:right" *ngIf="editHospitalPrices">
+                    <button mat-raised-button style="border: 1px solid darkgreen; background-color: #e4fde4" (click)="saveHospitalPrices()"><mat-icon style="color:darkgreen">done</mat-icon> Guardar </button>
+                    <button mat-raised-button style="border: 1px solid darkred; background-color: #f9d2d2" (click)="editHospitalPrices=false"><mat-icon style="color:darkred" >close</mat-icon> Cancelar</button>
+                </div>
+            </mat-card-title>
+            <mat-divider></mat-divider>
+            <mat-card-content>
+                <div style="width:45%; display:inline-block; background: url('../../../assets/images/hospital.jpg'); background-position: top; background-size: cover;">
+                    <mat-card style="background-color: #f7f1f1; padding:8px 0; visibility: hidden">
+                        <mat-card-title style="text-align:left; padding-left:16px;"><mat-icon style="vertical-align: middle">access_time</mat-icon>    Servicio 24 horas</mat-card-title>
+                        <mat-card-content style="text-align: center">
+                            <h2> 10'<sup>99<small> €/día</small></sup></h2>
+                        </mat-card-content>
+                    </mat-card>
+                    <mat-card style="background-color: #f7f1f1; padding:8px 0; visibility:hidden">
+                        <mat-card-title style="text-align:left; padding-left:16px;"><mat-icon style="vertical-align: middle">timelapse</mat-icon>    Servicio por horas</mat-card-title>
+                        <mat-card-content style="text-align: center">
+                            <mat-card style="padding:8px 0; width:46%; display: inline-block">
+                                <mat-card-title style="text-align:left; padding-left:16px; margin: 0 .5em;"><mat-icon style="vertical-align: middle">bedtime</mat-icon> Horario nocturno</mat-card-title>
+                                <mat-card-content style="text-align: center">
+                                    <mat-card style="background-color: #f7f1f1; padding:8px;">
+                                        <mat-card-title>De lunes a viernes</mat-card-title>
+                                        <mat-card-content style="text-align: center">
+                                            <h2> 10'<sup>99<small> €/día</small></sup></h2>
+                                        </mat-card-content>
+                                    </mat-card>
+                                    <mat-card style="background-color: #f7f1f1; padding:8px">
+                                        <mat-card-title>Fin de semana</mat-card-title>
+                                        <mat-card-content style="text-align: center">
+                                            <h2> 10'<sup>99<small> €/día</small></sup></h2>
+                                        </mat-card-content>
+                                    </mat-card>
+                                </mat-card-content>
+                            </mat-card>
+                            <mat-card style="padding:8px 0; width:46%; display: inline-block; margin-top: 0;margin-bottom: .5rem;">
+                                <mat-card-title style="text-align:left; padding-left:16px;margin: 0 .5em;"><mat-icon style="vertical-align: middle">wb_sunny</mat-icon> Horario diurno</mat-card-title>
+                                <mat-card-content style="text-align: center">
+                                    <mat-card style="background-color: #f7f1f1; padding:8px">
+                                        <mat-card-title>De lunes a viernes</mat-card-title>
+                                        <mat-card-content style="text-align: center">
+                                            <h2> 10'<sup>99<small> €/día</small></sup></h2>
+                                        </mat-card-content>
+                                    </mat-card>
+                                    <mat-card style="background-color: #f7f1f1; padding:8px">
+                                        <mat-card-title>Fin de semana</mat-card-title>
+                                        <mat-card-content style="text-align: center">
+                                            <h2> 10'<sup>99<small> €/día</small></sup></h2>
+                                        </mat-card-content>
+                                    </mat-card>
+                                </mat-card-content>
+                            </mat-card>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+                <div style="width:55%; display:inline-block">
+                    <mat-card style="background-color: #f7f1f1; padding:8px 0">
+                        <mat-card-title style="text-align:left; padding-left:16px;"><mat-icon style="vertical-align: middle">access_time</mat-icon>    Servicio 24 horas</mat-card-title>
+                        <mat-card-content style="text-align: center">
+                            <h2 *ngIf="!editHospitalPrices"> {{hospital24h[0]}}'<sup>{{hospital24h[1]}}<small> €/día</small></sup></h2>
+                            <mat-form-field *ngIf="editHospitalPrices" appearance="outline">
+                                <input matInput required [formControl]="hospital24hformcontrol">
+                                <p matSuffix>€</p>
+                            </mat-form-field>
+                        </mat-card-content>
+                    </mat-card>
+                    <mat-card style="background-color: #f7f1f1; padding:8px 0">
+                        <mat-card-title style="text-align:left; padding-left:16px;"><mat-icon style="vertical-align: middle">timelapse</mat-icon>    Servicio por horas</mat-card-title>
+                        <mat-card-content style="text-align: center">
+                            <mat-card style="padding:8px 0; width:46%; display: inline-block">
+                                <mat-card-title style="text-align:left; padding-left:16px; margin: 0 .5em;"><mat-icon style="vertical-align: middle">bedtime</mat-icon> Horario nocturno</mat-card-title>
+                                <mat-card-content style="text-align: center">
+                                    <mat-card style="background-color: #f7f1f1; padding:8px;">
+                                        <mat-card-title>De lunes a viernes</mat-card-title>
+                                        <mat-card-content style="text-align: center">
+                                            <h2 *ngIf="!editHospitalPrices"> {{hospitalweeknight[0]}}'<sup>{{hospitalweeknight[1]}}<small> €/día</small></sup></h2>
+                                            <mat-form-field *ngIf="editHospitalPrices" appearance="outline">
+                                                <input matInput required [formControl]="hospitalweeknightformcontrol">
+                                                <p matSuffix>€</p>
+                                            </mat-form-field>
+                                        </mat-card-content>
+                                    </mat-card>
+                                    <mat-card style="background-color: #f7f1f1; padding:8px">
+                                        <mat-card-title>Fin de semana</mat-card-title>
+                                        <mat-card-content style="text-align: center">
+                                            <h2 *ngIf="!editHospitalPrices"> {{hospitalweekendnight[0]}}'<sup>{{hospitalweekendnight[1]}}<small> €/día</small></sup></h2>
+                                            <mat-form-field *ngIf="editHospitalPrices" appearance="outline">
+                                                <input matInput required [formControl]="hospitalweekendnightformcontrol">
+                                                <p matSuffix>€</p>
+                                            </mat-form-field>
+                                        </mat-card-content>
+                                    </mat-card>
+                                </mat-card-content>
+                            </mat-card>
+                            <mat-card style="padding:8px 0; width:46%; display: inline-block; margin-top: 0;margin-bottom: .5rem;">
+                                <mat-card-title style="text-align:left; padding-left:16px;margin: 0 .5em;"><mat-icon style="vertical-align: middle">wb_sunny</mat-icon> Horario diurno</mat-card-title>
+                                <mat-card-content style="text-align: center">
+                                    <mat-card style="background-color: #f7f1f1; padding:8px">
+                                        <mat-card-title>De lunes a viernes</mat-card-title>
+                                        <mat-card-content style="text-align: center">
+                                            <h2 *ngIf="!editHospitalPrices"> {{hospitalweekday[0]}}'<sup>{{hospitalweekday[1]}}<small> €/día</small></sup></h2>
+                                            <mat-form-field *ngIf="editHospitalPrices" appearance="outline">
+                                                <input matInput required [formControl]="hospitalweekdayformcontrol">
+                                                <p matSuffix>€</p>
+                                            </mat-form-field>
+                                        </mat-card-content>
+                                    </mat-card>
+                                    <mat-card style="background-color: #f7f1f1; padding:8px">
+                                        <mat-card-title>Fin de semana</mat-card-title>
+                                        <mat-card-content style="text-align: center">
+                                            <h2 *ngIf="!editHospitalPrices"> {{hospitalweekendday[0]}}'<sup>{{hospitalweekendday[1]}}<small> €/día</small></sup></h2>
+                                            <mat-form-field *ngIf="editHospitalPrices" appearance="outline">
+                                                <input matInput required [formControl]="hospitalweekenddayformcontrol">
+                                                <p matSuffix>€</p>
+                                            </mat-form-field>
+                                        </mat-card-content>
+                                    </mat-card>
+                                </mat-card-content>
+                            </mat-card>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+            </mat-card-content>
+        </mat-card>
+
+    </mat-card-content>
+</mat-card>

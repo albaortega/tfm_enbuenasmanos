@@ -1,0 +1,33 @@
+<mat-card id="solicitudes">
+    <mat-card-title> <h1><strong>Solicitudes</strong></h1></mat-card-title>
+    <hr>
+    <mat-card-content>
+        <small style="opacity:70%">
+            <mat-icon style="vertical-align: middle; font-size:large; text-align: center"> local_hospital</mat-icon>Hospital  /
+            <mat-icon style="vertical-align: middle; font-size:large; text-align: center">home</mat-icon>Domicilio adulto  /
+            <mat-icon style="vertical-align: middle; font-size:large; text-align: center">face</mat-icon>Domicilio infantil
+        </small>
+        <div *ngIf="lenListServices>0">
+            <mat-card *ngFor="let element of listServices" class="solicitudes" (dblclick)="viewDetails(element.id)">
+                <mat-card-content style="width:100%">
+                    <mat-icon style="width:5%"  class="columnSolicitud" *ngIf="element.type=='hospital'">local_hospital</mat-icon>
+                    <mat-icon style="width:5%"  class="columnSolicitud" *ngIf="element.type=='domicilio'">home</mat-icon>
+                    <mat-icon style="width:5%"  class="columnSolicitud"*ngIf="element.type=='infantil'">face</mat-icon>
+                    <small style="width:18%" class="columnSolicitud"><mat-icon style="color:grey; vertical-align: middle;">today</mat-icon>  {{element.start_date}} - {{element.end_date}}</small>
+                    <small style="width:22%" class="columnSolicitud"><mat-icon style="color:grey; vertical-align: middle;">location_on</mat-icon>{{element.address}}</small>
+                    <p style="width:15%" class="columnSolicitud"><mat-icon style="color:grey; vertical-align: middle;">person</mat-icon>{{element.user}}</p>
+                    <small style="width:18%" class="columnSolicitud">
+                        <mat-icon style="color:grey; vertical-align: middle;">person</mat-icon> {{element.client_details.name}}, {{element.phone}}
+                    </small>
+                    <p style="width:10%" class="columnSolicitud">
+                        <button mat-raised-button color="accent" (click)="assignWorker(element.id)">Asignar</button>
+                    </p>
+
+                </mat-card-content>
+            </mat-card>
+        </div>
+        <div *ngIf="lenListServices == 0">
+            <p style="padding:10%"> No tienes solicitudes pendientes</p>
+        </div>
+    </mat-card-content>
+</mat-card>

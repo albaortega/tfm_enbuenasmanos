@@ -1,0 +1,53 @@
+.mat-column-service {
+  flex: 0 0 61% !important;
+  border-right: 1px solid dimgrey;
+}
+.mat-column-kids {
+  flex: 0 0 12% !important;
+}
+.mat-column-home{
+  flex: 0 0 12% !important;
+}
+.mat-column-hospital {
+  flex: 0 0 12% !important;
+}
+#prices .mat-header-row{
+  background-color: rgba(34, 42, 69, 0.2);
+  border-bottom: 1px solid dimgrey;
+}
+mat-cell:first-of-type{
+  background-color: rgba(34, 42, 69, 0.1);
+  padding-left:3%
+}
+#prices mat-cell:not(mat-cell:first-of-type){
+  text-align: center;
+  justify-content: center;
+}
+.roundtable{
+  border-radius:5px;
+  border: 0.5px solid lightgrey;
+}
+.botonera{
+  float:right;
+  display: inline-flex;
+}
+.botonera button{
+  margin:4% 0 1% 2%;
+}
+#prices .mat-form-field-infix{
+  border-top: none;
+}
+#prices .mat-form-field{
+  width: 50%;
+}
+.inputPrice{
+  margin: 0 10%;
+  width: 80%;
+}
+#prices .mat-form-field-wrapper{
+  padding-bottom: 0;
+}
+.center{
+  width: 100%;
+  text-align: center;
+}

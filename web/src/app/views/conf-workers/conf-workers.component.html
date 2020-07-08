@@ -1,0 +1,97 @@
+ <mat-tab-group>
+     <mat-tab label="Empleados" style="width:50%">
+         <mat-card id="confworkers">
+        <mat-card-title>
+            <h1 style="display: inline-block"><strong>Gestión de empleados</strong></h1>
+            <button mat-raised-button color="primary" style="display: inline-block; float:right" (click)="newWorkers()"><mat-icon>person_add</mat-icon> Añadir empleado</button>
+        </mat-card-title>
+        <hr>
+        <mat-card-content>
+            <mat-form-field id="filter" class="row">
+                <input matInput (keyup)="applyFilter($event)">
+                <mat-icon matSuffix>search</mat-icon>
+            </mat-form-field>
+            <mat-table [dataSource]="this.listWorkers" style="width:100%; overflow-x:auto;" class="roundtable">
+                <ng-container matColumnDef="status">
+                    <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                    <mat-cell class="col-10" *matCellDef="let element">
+                        <mat-icon style="color: mediumseagreen; font-size: medium; vertical-align: middle" *ngIf="element.free">lens</mat-icon>
+                        <mat-icon style="color: orange; font-size: medium; vertical-align: middle" *ngIf="!element.free">lens</mat-icon>
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="picture">
+                    <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                    <mat-cell class="col-10" *matCellDef="let element" [className]="element.free==true ? 'mediumseagreen':
+    element.free==false ? 'pending' : ''"><img [src]="element.picture" alt="" style="padding:5% 0;border-radius:50%;width:60px"></mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="name">
+                    <mat-header-cell *matHeaderCellDef>Nombre</mat-header-cell>
+                    <mat-cell class="col-10" *matCellDef="let element">{{element.name}} </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="email">
+                    <mat-header-cell *matHeaderCellDef>Email</mat-header-cell>
+                    <mat-cell class="col-10" *matCellDef="let element">{{element.email}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="phone">
+                    <mat-header-cell *matHeaderCellDef>Teléfono</mat-header-cell>
+                    <mat-cell class="col-10" *matCellDef="let element">{{element.phone}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="actions">
+                    <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                    <mat-cell class="col-2" *matCellDef="let element">
+                        <a href="javascript:" class="btn btn-secondary col-1" (click)="detailsWorker(element.id)"><mat-icon style="color: royalblue; font-size:large" >remove_red_eye</mat-icon></a>
+                        <a href="javascript:" class="btn btn-secondary col-1" (click)="editWorker(element.id)"><mat-icon style="font-size:large">edit</mat-icon></a>
+                        <a href="javascript:" class="btn btn-secondary col-1" (click)="deleteWorker(element.id)"><mat-icon style="color:red; font-size:large">delete</mat-icon></a>
+                    </mat-cell>
+                </ng-container>
+                <mat-header-row *matHeaderRowDef="ServiceColumn"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: ServiceColumn;"></mat-row>
+            </mat-table>
+            <p *ngIf="this.listWorkers.data.length==0" style="padding:5%; text-align: center;"> No existen trabajadores en el sistema</p>
+        </mat-card-content>
+    </mat-card>
+        <button mat-raised-button color="accent" style="float:right;margin-right:1%" (click)="viewInactiveWorkers()"><small><mat-icon style="vertical-align: middle">history</mat-icon> Ver trabajadores antiguos</small></button>
+     </mat-tab>
+     <mat-tab label="Administradores" style="width:50%">
+        <mat-card id="confadmins">
+        <mat-card-title>
+            <h1 style="display: inline-block"><strong>Gestión de administradores</strong></h1>
+            <button mat-raised-button color="primary" style="display: inline-block; float:right" (click)="newAdmin()"><mat-icon>person_add</mat-icon> Añadir administrador</button>
+        </mat-card-title>
+        <hr>
+        <mat-card-content>
+            <mat-form-field id="filterAdmin" class="row">
+                <input matInput (keyup)="applyFilter($event)">
+                <mat-icon matSuffix>search</mat-icon>
+            </mat-form-field>
+            <mat-table [dataSource]="this.listAdmins" style="width:100%; overflow-x:auto;" class="roundtable">
+                <ng-container matColumnDef="picture">
+                    <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                    <mat-cell class="col-10" *matCellDef="let element"><img [src]="element.picture" alt="" style="padding:5% 0;border-radius:50%;width:60px"></mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="name">
+                    <mat-header-cell *matHeaderCellDef>Nombre</mat-header-cell>
+                    <mat-cell class="col-10" *matCellDef="let element">{{element.name}} </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="email">
+                    <mat-header-cell *matHeaderCellDef>Email</mat-header-cell>
+                    <mat-cell class="col-10" *matCellDef="let element">{{element.email}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="dni">
+                    <mat-header-cell *matHeaderCellDef>Dni</mat-header-cell>
+                    <mat-cell class="col-10" *matCellDef="let element">{{element.dni}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="actions">
+                    <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                    <mat-cell class="col-2" *matCellDef="let element">
+                        <a href="javascript:" class="btn btn-secondary col-1" (click)="deleteAdmin(element.email)"><mat-icon style="color:red; font-size:large">delete</mat-icon></a>
+                    </mat-cell>
+                </ng-container>
+                <mat-header-row *matHeaderRowDef="AdminColumn"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: AdminColumn;"></mat-row>
+            </mat-table>
+            <p *ngIf="this.listAdmins.data.length==0" style="padding:5%; text-align: center;"> No existen administradores en el sistema</p>
+        </mat-card-content>
+    </mat-card>
+     </mat-tab>
+ </mat-tab-group>
